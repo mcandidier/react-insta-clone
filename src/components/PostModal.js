@@ -25,7 +25,8 @@ const useStyles = makeStyles( (theme) => ({
   }
 }));
 
-export default function PostModal({open, handleClickOpen, handleClose}) {
+export default function PostModal(props) {
+  const {open, handleClickOpen, handleClose} = props;
   const classes = useStyles();
   const focusUsernameInputField = (input) => {
     if (input) {
@@ -43,6 +44,8 @@ export default function PostModal({open, handleClickOpen, handleClose}) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        maxWidth="sm"
+        fullWidth="true"
       >
         <DialogTitle id="alert-dialog-slide-title">
           {"Create Post"}
