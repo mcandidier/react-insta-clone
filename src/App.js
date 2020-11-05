@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Nav from './components/Nav';
 import Post from './components/Post';
-
+import PostModal from './components/PostModal';
 
 import './App.css';
 
 import API from './api';
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -28,7 +38,8 @@ function App() {
   
   return (
     <div className="App">
-      <Nav></Nav>
+      <Nav handleClickOpen={handleClickOpen}></Nav>
+      <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose}></PostModal>
       <div className="container">
         {renderItems()};
       </div>

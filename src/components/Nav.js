@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }from 'react';
 import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Nav() {
-        const classes = useStyles();
-       return (
+function Nav({handleClickOpen}) {
+    const classes = useStyles();
+    return (
         <div className="app__header">
             <div className="left">
                 <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="instagram logo"/>
@@ -32,10 +32,10 @@ function Nav() {
 
             </div>
             <div className="nav-right">
+                <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
                 <Icon className="material-icons-outlined">home</Icon>
                 <Icon className="material-icons-outlined">favorite-border</Icon>
                 <Avatar alt="user" className={classes.small}></Avatar>
-
             </div>
         </div>
     )
