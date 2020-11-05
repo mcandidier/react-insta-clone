@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import Nav from './components/Nav';
+import Post from './components/Post';
+
+
 import './App.css';
 
+import API from './api';
+
 function App() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+      const fetchData = async () => {  
+          const res = await API.get('posts/');
+          console.log(res);
+          setPosts(res.data);
+      };
+      fetchData();
+  }, []);
+
+
+  const renderItems = () => {
+    return posts.map((post, index) => 
+      <Post key={index} post={post}></Post>
+    )
+  };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav></Nav>
+      <div className="container">
+        {renderItems()};
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
