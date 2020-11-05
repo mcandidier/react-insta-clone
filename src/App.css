@@ -12,6 +12,15 @@
   min-width: 1024px;
 }
 
+.app__header .nav-right {
+  display: flex;
+}
+
+.app__header .nav-right > * {
+  margin: 0 0 0 24px;
+  cursor: pointer;
+}
+
 
 .container {
   padding-top: 40px;

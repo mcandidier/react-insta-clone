@@ -22,10 +22,10 @@ function Post({post}){
 
                 <section className="actions">
                     <div className="like">
-                        <Icon fontSize="24">thumb_up_alt</Icon>
+                        <Icon fontSize="24" className="material-icons-outlined">thumb_up</Icon>
                     </div>
                     <div className="bookmark">
-                        <Icon fontSize="24">bookmark_bord</Icon>
+                        <Icon fontSize="24">bookmark_border</Icon>
                     </div>
                 </section>
                 <section className="info">
