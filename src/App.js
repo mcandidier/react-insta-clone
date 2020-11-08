@@ -9,6 +9,7 @@ import API from './api';
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,12 +19,17 @@ function App() {
     setOpen(false);
   };
 
-  const [posts, setPosts] = useState([]);
+  const handlePostUpdate = (post) => {
+    // setPosts([...posts, post]);
+
+    // Append a single item
+    setPosts(posts => [post, ...posts]);
+
+  }
 
   useEffect(() => {
       const fetchData = async () => {  
           const res = await API.get('posts/');
-          console.log(res);
           setPosts(res.data);
       };
       fetchData();
@@ -39,9 +45,11 @@ function App() {
   return (
     <div className="App">
       <Nav handleClickOpen={handleClickOpen}></Nav>
-      <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose}></PostModal>
+      <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
       <div className="container">
-        {renderItems()};
+        { posts.map((post, index) => 
+            <Post key={post.id} post={post}></Post>
+        )}
       </div>
     </div>
   )
