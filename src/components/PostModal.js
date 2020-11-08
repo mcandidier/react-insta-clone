@@ -14,6 +14,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import PostForm from '../components/PostForm';
 import API from '../api';
 
+import {reset} from 'redux-form';
+
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="bottom" ref={ref} {...props} />;
 });
@@ -37,15 +40,17 @@ function PostModal(props) {
     }
   };
 
-  const handleSubmit = (values) => {
+  const onSubmit = (values, dispatch) => {
     let formData = new FormData();
     for (let [key, value] of Object.entries(values)) {
       formData.append(key, value);
     }
 
+
     API.post('posts/', formData).then( resp => {
       handlePostUpdate(resp.data); // insert new object to posts array
       handleClose();
+      dispatch(reset('postForm'));  // requires form name
     });
   }
 
@@ -69,7 +74,7 @@ function PostModal(props) {
         </DialogTitle>
         <DialogContent dividers>
           {/* insert post form here */}
-          <PostForm onSubmit={handleSubmit}></PostForm>
+          <PostForm onSubmit={onSubmit}></PostForm>
         </DialogContent>
       </Dialog>
   );
