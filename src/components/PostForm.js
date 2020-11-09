@@ -1,78 +1,102 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import API from '../api';
 
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
 
-function fileField({input, type, meta}){
-  
-  const handleChange = (e, input) => {
-    e.preventDefault()
-    console.log('event changed');
-    let imageFile = e.target.files[0];
-    if (imageFile) {
-      const localImageUrl = URL.createObjectURL(imageFile);
-      const imageObject = new window.Image();
+  <TextField label={label}
+    helperText={touched && error}
+    fullWidth
+    {...input}
+    {...custom}
+  />
+)
 
-      imageObject.onload = () => {
-        imageFile.width = imageObject.naturalWidth;
-        imageFile.height = imageObject.naturalHeight;
-        input.onChange(imageFile);
-        URL.revokeObjectURL(imageFile);
-      };
-      imageObject.src = localImageUrl;
+const validate = values => {
+  const errors = {}
+  const requiredFields = ['description', 'image']
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
     }
+  });
+  return errors
+}
 
-  };
-
+const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
+const FileInput = ({ 
+  input: { value: omitValue, onChange, onBlur, ...inputProps }, 
+  meta: omitMeta, 
+  ...props 
+}) => {
   return (
-    <div>
-      <input
-        name={input.name}
-        type={type}
-        onChange={event => handleChange(event, input)}
-      />
-    </div> 
-  )
+    <input
+      onChange={adaptFileEventToValue(onChange)}
+      onBlur={adaptFileEventToValue(onBlur)}
+      type="file"
+      id="fileUpload"
+      {...props.input}
+      {...props}
+    />
+  );
 };
 
 
-function submit(values) {
-  console.log(values);
-}
-
-
 function PostForm(props) {
-  const { handleSubmit, pristine, reset, submitting } = props;
-  
+  console.log(props)
+  const { handleSubmit, pristine, reset, submitting, handleClose, handlePostUpdate} = props; 
+
+  const onSubmit = (values) => {
+    let formData = new FormData();
+    for (let [key, value] of Object.entries(values)) {
+      formData.append(key, value);
+    }
+
+    API.post('posts/', formData).then( resp => {
+     handlePostUpdate(resp.data); // insert new object to posts array
+     handleReset();
+     handleClose();
+    });
+  }
+
+  const handleReset = () => {
+    reset();
+    let image = document.getElementById('fileUpload')
+    if(image.value) {
+      image.value = null;
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit.bind(this)}>
-          <div>
-            <label></label>
-            <div>
-              <Field
-                name="description"
-                component="textarea"
-                type="text"
-                placeholder="Write caption"
-              />
-            </div>
-            <div>
-              <label>Upload image</label>
-              <div>
-                <Field
-                  name="image"
-                  component={fileField}
-                  type="file"
-                />
-              </div>
-            </div>
-          </div>
-          <Button fullWidth="true" variant="contained" color="primary" type="submit">Post</Button>
-      </form>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <Field
+          name="description"
+          component={renderTextField}
+          label="Write caption"
+        />
+      </div>
+      <div>
+        <label>Upload image</label>
+        <Field
+          name="image"
+          type="file"
+          component={FileInput}
+        />
+      </div>
+      <Button type="submit" fullWidth="true" variant="contained" color="primary" disabled={submitting}>Post</Button>
+    </form>
   )
 }
 
+
 export default reduxForm({
-    form: 'postForm',
+    form: 'postForm', // unique identifier
+    validate,
+    asyncBlurFields: [ 'description', 'image'],
 })(PostForm);

@@ -12,7 +12,6 @@ function Post({post}){
     return (
         <div className="app__post">
             <header>
-                <p>{post.id}</p>
                 <Avatar>{post.username.slice(0, 1)}</Avatar>
             <h4><a href="">{post.username}</a></h4>
             </header>

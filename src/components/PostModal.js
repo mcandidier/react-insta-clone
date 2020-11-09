@@ -10,9 +10,9 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 import PostForm from '../components/PostForm';
-import API from '../api';
 
 import {reset} from 'redux-form';
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles( (theme) => ({
 }));
 
 function PostModal(props) {
+  console.log(props);
   const {open, handleClickOpen, handleClose, handlePostUpdate} = props;
   const classes = useStyles();
   const focusUsernameInputField = (input) => {
@@ -40,27 +41,17 @@ function PostModal(props) {
     }
   };
 
-  const onSubmit = (values, dispatch) => {
-    let formData = new FormData();
-    for (let [key, value] of Object.entries(values)) {
-      formData.append(key, value);
-    }
-
-
-    API.post('posts/', formData).then( resp => {
-      handlePostUpdate(resp.data); // insert new object to posts array
-      handleClose();
-      dispatch(reset('postForm'));  // requires form name
-    });
+  const onClose = (dispatch) => {
+    handleClose();
+    props.resetForm();
   }
 
-  
   return (
       <Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
         maxWidth="sm"
@@ -74,10 +65,20 @@ function PostModal(props) {
         </DialogTitle>
         <DialogContent dividers>
           {/* insert post form here */}
-          <PostForm onSubmit={onSubmit}></PostForm>
+          <PostForm handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostForm>
         </DialogContent>
       </Dialog>
   );
 }
 
-export default PostModal;
+const mapDispatchToProps = dispatch => ({
+  resetForm: () => {
+    dispatch(reset('postForm'));
+    let image = document.getElementById('fileUpload')
+    if(image.value) {
+      image.value = null;
+    }
+    }
+ });
+
+export default connect(null,mapDispatchToProps)(PostModal);

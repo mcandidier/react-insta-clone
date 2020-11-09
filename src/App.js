@@ -20,11 +20,8 @@ function App() {
   };
 
   const handlePostUpdate = (post) => {
-    // setPosts([...posts, post]);
-
     // Append a single item
     setPosts(posts => [post, ...posts]);
-
   }
 
   useEffect(() => {
@@ -47,9 +44,7 @@ function App() {
       <Nav handleClickOpen={handleClickOpen}></Nav>
       <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
       <div className="container">
-        { posts.map((post, index) => 
-            <Post key={post.id} post={post}></Post>
-        )}
+      {renderItems()}
       </div>
     </div>
   )
