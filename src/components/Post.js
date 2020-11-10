@@ -1,13 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
-
 import Icon from '@material-ui/core/Icon';
+
+import { likePost } from '../actions';
 
 import moment from 'moment';
 
 function Post({post}){
     const baseUrl = 'http://localhost:8000';
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
+    const user = {'id': 1 };
+    const [isLike, setIsLike] = useState(false);
+    
+    useEffect ( ()=> {
+      if( post.likes.includes( user.id )){
+        setIsLike(true);
+      }
+    }, [isLike])
+
+    const handleLike = async () => {
+        try {
+          const res = await likePost(post.id);
+          setIsLike(true);
+        } catch (error) {
+          
+        }
+    }
+
 
     return (
         <div className="app__post">
@@ -22,7 +41,9 @@ function Post({post}){
 
                 <section className="actions">
                     <div className="like">
-                        <Icon fontSize="24" className="material-icons-outlined">thumb_up</Icon>
+                        <Icon fontSize="24" 
+                              className={isLike?'':'material-icons-outlined'}
+                              onClick={handleLike}>thumb_up</Icon>
                     </div>
                     <div className="bookmark">
                         <Icon fontSize="24">bookmark_border</Icon>
