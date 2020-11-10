@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
@@ -7,26 +7,40 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import API from '../api';
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+import { createPost } from '../actions';
 
-  <TextField label={label}
-    helperText={touched && error}
-    fullWidth
-    {...input}
-    {...custom}
-  />
+
+const renderTextField = ({
+    label,
+    input,
+    meta: { touched, invalid, error },
+    ...custom
+    }) => (
+    <TextField
+      label={label}
+      placeholder={label}
+      error={touched && invalid}
+      helperText={touched && error}
+      fullWidth
+      {...input}
+      {...custom}
+    />
 )
 
 const validate = values => {
   const errors = {}
-  const requiredFields = ['description', 'image']
+  const requiredFields = [
+    'description',
+    'image'
+  ]
   requiredFields.forEach(field => {
-    if (!values[ field ]) {
-      errors[ field ] = 'Required'
+    if (!values[field]) {
+      errors[field] = 'Required'
     }
-  });
+  })
   return errors
 }
+
 
 const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
 const FileInput = ({ 
@@ -46,22 +60,25 @@ const FileInput = ({
   );
 };
 
-
 function PostForm(props) {
-  console.log(props)
-  const { handleSubmit, pristine, reset, submitting, handleClose, handlePostUpdate} = props; 
+  const [count, setCount] = useState(0);
+  const { handleSubmit, pristine, reset, submitting, classes, handlePostUpdate, handleClose } = props
 
-  const onSubmit = (values) => {
+
+  const onSubmit = async (values) => {
+
     let formData = new FormData();
     for (let [key, value] of Object.entries(values)) {
       formData.append(key, value);
     }
 
-    API.post('posts/', formData).then( resp => {
-     handlePostUpdate(resp.data); // insert new object to posts array
-     handleReset();
-     handleClose();
-    });
+    try {
+      const res = await createPost(formData);
+      handlePostUpdate(res.data); // insert new object to posts array
+      handleClose();
+    } catch (error) {
+      console.log('error');
+    }
   }
 
   const handleReset = () => {
@@ -89,7 +106,11 @@ function PostForm(props) {
           component={FileInput}
         />
       </div>
-      <Button type="submit" fullWidth="true" variant="contained" color="primary" disabled={submitting}>Post</Button>
+      <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
+
+      {/* <Button type="submit" fullWidth="true" variant="contained" color="primary" disabled={ pristine || submitting}>Post</Button> */}
     </form>
   )
 }
@@ -98,5 +119,4 @@ function PostForm(props) {
 export default reduxForm({
     form: 'postForm', // unique identifier
     validate,
-    asyncBlurFields: [ 'description', 'image'],
 })(PostForm);

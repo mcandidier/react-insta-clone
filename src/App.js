@@ -5,7 +5,8 @@ import PostModal from './components/PostModal';
 
 import './App.css';
 
-import API from './api';
+import { getAllPosts } from './actions';
+
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -24,10 +25,10 @@ function App() {
     setPosts(posts => [post, ...posts]);
   }
 
-  useEffect(() => {
-      const fetchData = async () => {  
-          const res = await API.get('posts/');
-          setPosts(res.data);
+  useEffect( () => {
+      const fetchData = async () => {
+        const result = await getAllPosts()
+        setPosts(result.data);
       };
       fetchData();
   }, []);
@@ -44,7 +45,7 @@ function App() {
       <Nav handleClickOpen={handleClickOpen}></Nav>
       <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
       <div className="container">
-      {renderItems()}
+        {renderItems()}
       </div>
     </div>
   )

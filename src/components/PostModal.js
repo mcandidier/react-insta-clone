@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect}from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -30,7 +30,6 @@ const useStyles = makeStyles( (theme) => ({
 }));
 
 function PostModal(props) {
-  console.log(props);
   const {open, handleClickOpen, handleClose, handlePostUpdate} = props;
   const classes = useStyles();
   const focusUsernameInputField = (input) => {
@@ -65,19 +64,22 @@ function PostModal(props) {
         </DialogTitle>
         <DialogContent dividers>
           {/* insert post form here */}
-          <PostForm handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostForm>
+          <PostForm handleClose={onClose} handlePostUpdate={handlePostUpdate}></PostForm>
         </DialogContent>
       </Dialog>
   );
 }
 
+
+
 const mapDispatchToProps = dispatch => ({
   resetForm: () => {
-    dispatch(reset('postForm'));
-    let image = document.getElementById('fileUpload')
-    if(image.value) {
-      image.value = null;
-    }
+      let image = document.getElementById('fileUpload');
+      if(image.value) {
+        image.value = null;
+      }
+      dispatch(reset('postForm'));
+
     }
  });
 
