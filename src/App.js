@@ -36,7 +36,7 @@ function App() {
 
   const renderItems = () => {
     return posts.map((post, index) => 
-      <Post key={index} post={post}></Post>
+      <Post key={index} obj={post}></Post>
     )
   };
   

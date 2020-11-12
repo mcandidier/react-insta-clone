@@ -6,27 +6,26 @@ import { likePost } from '../actions';
 
 import moment from 'moment';
 
-function Post({post}){
+function Post({obj}){
+  console.log(obj);
+    const [post, setPost ] = useState(obj);
     const baseUrl = 'http://localhost:8000';
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
     const user = {'id': 1 };
-    const [isLike, setIsLike] = useState(false);
-    
-    useEffect ( ()=> {
-      if( post.likes.includes( user.id )){
-        setIsLike(true);
-      }
-    }, [isLike])
+
+    useEffect(() => {
+      setPost(obj);
+    }, [obj]);
 
     const handleLike = async () => {
-        try {
-          const res = await likePost(post.id);
-          setIsLike(true);
-        } catch (error) {
-          
-        }
+      let action = post.is_like? 'unlike': 'like';
+      const data = {'id': post.id, 'action': action}
+      try {
+        const res = await likePost(data);
+        setPost({...obj, 'is_like': !post.is_like});
+      } catch (error) {
+      }
     }
-
 
     return (
         <div className="app__post">
@@ -42,7 +41,7 @@ function Post({post}){
                 <section className="actions">
                     <div className="like">
                         <Icon fontSize="24" 
-                              className={isLike?'':'material-icons-outlined'}
+                              className={post.is_like?'':'material-icons-outlined'}
                               onClick={handleLike}>thumb_up</Icon>
                     </div>
                     <div className="bookmark">
