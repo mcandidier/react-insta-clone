@@ -6,43 +6,12 @@ import Input from '@material-ui/core/Input';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import API from '../api';
-
 import { createPost } from '../actions';
 
-
-const renderTextField = ({
-    label,
-    input,
-    meta: { touched, invalid, error },
-    ...custom
-    }) => (
-    <TextField
-      label={label}
-      placeholder={label}
-      error={touched && invalid}
-      helperText={touched && error}
-      fullWidth
-      {...input}
-      {...custom}
-    />
-)
-
-const validate = values => {
-  const errors = {}
-  const requiredFields = [
-    'description',
-    'image'
-  ]
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  })
-  return errors
-}
-
+import { renderTextField, validate } from '../common/form';
 
 const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
+
 const FileInput = ({ 
   input: { value: omitValue, onChange, onBlur, ...inputProps }, 
   meta: omitMeta, 
@@ -62,7 +31,7 @@ const FileInput = ({
 
 function PostForm(props) {
   const [count, setCount] = useState(0);
-  const { handleSubmit, pristine, reset, submitting, classes, handlePostUpdate, handleClose } = props
+  const { handleSubmit, pristine, reset, submitting, classes, handlePostUpdate, handleClose } = props;
 
 
   const onSubmit = async (values) => {
@@ -117,6 +86,6 @@ function PostForm(props) {
 
 
 export default reduxForm({
-    form: 'postForm', // unique identifier
-    validate,
+  form: 'postForm', // unique identifier
+  validate,
 })(PostForm);

@@ -7,7 +7,6 @@ import { likePost } from '../actions';
 import moment from 'moment';
 
 function Post({obj}){
-  console.log(obj);
     const [post, setPost ] = useState(obj);
     const baseUrl = 'http://localhost:8000';
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();

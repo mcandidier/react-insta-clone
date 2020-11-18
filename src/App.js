@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Nav from './components/Nav';
 import Post from './components/Post';
 import PostModal from './components/PostModal';
+import Login from './components/Login';
+
 
 import './App.css';
 
 import { getAllPosts } from './actions';
+import { userLogin, userLogout } from './redux/auth/actions';
 
 
-function App() {
+import { useDispatch, connect } from 'react-redux';
+
+
+function App(props) {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
 
@@ -26,6 +34,7 @@ function App() {
   }
 
   useEffect( () => {
+
       const fetchData = async () => {
         const result = await getAllPosts()
         setPosts(result.data);
@@ -51,4 +60,11 @@ function App() {
   )
 }
 
-export default App;
+
+const mapStateToProps = (state, ownProps) => {
+  const { user } = state;
+  return {user}
+}
+
+export default connect(mapStateToProps, {
+})(App);
