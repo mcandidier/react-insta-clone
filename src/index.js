@@ -10,11 +10,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import reducer from './redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const store = createStore(
-  reducer,
+const store = createStore(reducer, composeWithDevTools(
   applyMiddleware(thunk)
-)
+));
 
 ReactDOM.render(
   <Provider store={store}>

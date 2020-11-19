@@ -5,5 +5,5 @@ import user from './auth/reducer';
 
 export default combineReducers({
   form: reduxFormReducer, // mounted under "form"
-  user,
+  user
 })

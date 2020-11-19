@@ -4,19 +4,14 @@ import Post from './components/Post';
 import PostModal from './components/PostModal';
 import Login from './components/Login';
 
-
 import './App.css';
 
 import { getAllPosts } from './actions';
-import { userLogin, userLogout } from './redux/auth/actions';
-
+import { userLogin, userLogout,LOGIN } from './redux/auth/actions';
 
 import { useDispatch, connect } from 'react-redux';
 
-
 function App(props) {
-  const dispatch = useDispatch();
-
   const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
 
@@ -34,7 +29,6 @@ function App(props) {
   }
 
   useEffect( () => {
-
       const fetchData = async () => {
         const result = await getAllPosts()
         setPosts(result.data);
@@ -48,9 +42,23 @@ function App(props) {
       <Post key={index} obj={post}></Post>
     )
   };
-  
+
+
+  const {user} = props;
+  const authButton = () => {
+    if(user?.loggedIn) {
+      return <p>lougout</p>
+    }else{
+      return <p>login</p>
+    }
+  }
+
+
   return (
+
     <div className="App">
+      <Login></Login>
+      {authButton()}
       <Nav handleClickOpen={handleClickOpen}></Nav>
       <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
       <div className="container">
@@ -60,11 +68,9 @@ function App(props) {
   )
 }
 
-
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
   return {user}
 }
 
-export default connect(mapStateToProps, {
-})(App);
+export default connect(mapStateToProps, {})(App);
