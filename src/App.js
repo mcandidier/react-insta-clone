@@ -1,72 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import Nav from './components/Nav';
-import Post from './components/Post';
-import PostModal from './components/PostModal';
-import Login from './components/Login';
+import { useDispatch, connect } from 'react-redux';
+
+import { userLogin, userLogout,LOGIN } from './redux/auth/actions';
+
+import { 
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+
+
+import{
+  Nav,
+  Post,
+  PostModal,
+  PostForm,
+  Dashboard,
+  Public,
+  Login,
+  Register,
+
+} from './components';
 
 import './App.css';
 
-import { getAllPosts } from './actions';
-import { userLogin, userLogout,LOGIN } from './redux/auth/actions';
-
-import { useDispatch, connect } from 'react-redux';
 
 function App(props) {
-  const [open, setOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handlePostUpdate = (post) => {
-    // Append a single item
-    setPosts(posts => [post, ...posts]);
-  }
-
-  useEffect( () => {
-      const fetchData = async () => {
-        const result = await getAllPosts()
-        setPosts(result.data);
-      };
-      fetchData();
-  }, []);
-
-
-  const renderItems = () => {
-    return posts.map((post, index) => 
-      <Post key={index} obj={post}></Post>
-    )
-  };
-
-
   const {user} = props;
-  const authButton = () => {
-    if(user?.loggedIn) {
-      return <p>lougout</p>
-    }else{
-      return <p>login</p>
+
+  const RootComponent = () => {
+    if(user.loggedIn) {
+      return <Dashboard></Dashboard>
+    }else {
+      return <Public></Public>
     }
   }
 
-
   return (
-
     <div className="App">
-      <Login></Login>
-      {authButton()}
-      <Nav handleClickOpen={handleClickOpen}></Nav>
-      <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
-      <div className="container">
-        {renderItems()}
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={RootComponent} />
+          <Route path="/login/" component={Login} />
+          <Route path="/register/" component={Register} />
+        </Switch>
+      </Router>
     </div>
   )
 }
+
 
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
