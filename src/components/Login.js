@@ -1,25 +1,19 @@
 import React, {useState} from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { renderTextField, required } from '../common/form';
 import { Field, reduxForm } from 'redux-form';
 
 import Button from '@material-ui/core/Button';
-import { handleLogin, LOGIN } from '../redux/auth/actions';
+import { handleLogin } from '../redux/auth/actions';
 
 
 function Login(props) {
-  const { handleSubmit, pristine, reset, submitting, classes, handleLogin} = props;
+  const { handleSubmit, pristine, reset, handleLogin} = props;
   const [ hasError, setHasError ] = useState(false);
 
-  const dispatch = useDispatch();
-
   const onSubmit = (values) => {
-      handleLogin(values).then(resp => {
-        dispatch(LOGIN(resp.data));
-      }, (err)=> {
-        setHasError(true);
-      });
+      handleLogin(values);
   }
 
   return (
@@ -49,6 +43,7 @@ function Login(props) {
 Login = connect(
   null, {
     handleLogin,
+
   }
 )(Login);
 

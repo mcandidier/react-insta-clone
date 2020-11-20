@@ -1,8 +1,12 @@
 import API from './api';
 
 
-export const getAllPosts = async () => {  
+export const getAllPosts = async () => { 
+  try {
     return await API.get('posts/');
+  } catch (err) {
+    return err;
+  }
 }
 
 export const createPost = async (data) => {

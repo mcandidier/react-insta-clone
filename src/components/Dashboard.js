@@ -13,6 +13,7 @@ import { getAllPosts } from '../actions';
 function Dashboard(props) {
   const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,12 +28,20 @@ function Dashboard(props) {
     setPosts(posts => [post, ...posts]);
   }
 
+  const fetchData = async () => {
+    setLoading(true);
+    const result = await getAllPosts();
+    if(result.data) {
+      setPosts(result.data);
+    }
+  };
+
   useEffect( () => {
-      const fetchData = async () => {
-        const result = await getAllPosts()
-        setPosts(result.data);
-      };
       fetchData();
+
+      return () => {
+        setLoading(false);
+      }
   }, []);
 
 
@@ -54,6 +63,4 @@ function Dashboard(props) {
   )
 }
 
-export default connect(null,{
-
-})(Dashboard);
+export default connect()(Dashboard);

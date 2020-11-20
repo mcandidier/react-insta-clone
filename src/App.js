@@ -25,9 +25,10 @@ import{
 import './App.css';
 
 
-function App(props) {
-  const {user} = props;
-
+function App({user}) {
+  useEffect( ()=> {
+  }, [user])
+  
   const RootComponent = () => {
     if(user.loggedIn) {
       return <Dashboard></Dashboard>
@@ -41,8 +42,8 @@ function App(props) {
       <Router>
         <Switch>
           <Route exact path="/" component={RootComponent} />
-          <Route path="/login/" component={Login} />
-          <Route path="/register/" component={Register} />
+          <Route exact path="/login/" component={Login} />
+          <Route exact path="/register/" component={Register} />
         </Switch>
       </Router>
     </div>
@@ -55,4 +56,5 @@ const mapStateToProps = (state, ownProps) => {
   return {user}
 }
 
-export default connect(mapStateToProps, {})(App);
+export default connect(mapStateToProps, {
+})(App);
