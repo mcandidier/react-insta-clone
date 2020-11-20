@@ -12,8 +12,12 @@ function Login(props) {
   const { handleSubmit, pristine, reset, handleLogin} = props;
   const [ hasError, setHasError ] = useState(false);
 
+  const remoteError = () => {
+    setHasError(true);
+  }
+
   const onSubmit = (values) => {
-      handleLogin(values);
+      handleLogin(values, remoteError);
   }
 
   return (

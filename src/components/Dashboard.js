@@ -38,7 +38,6 @@ function Dashboard(props) {
 
   useEffect( () => {
       fetchData();
-
       return () => {
         setLoading(false);
       }

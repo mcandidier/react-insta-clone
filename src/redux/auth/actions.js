@@ -19,6 +19,8 @@ export const handleLogin = (data, callback) => {
         return API.post('accounts/login/', data).then( resp => {
           dispatch(LOGIN(resp.data));
           dispatch(SET_USER());
+        }, () => {
+          callback();
         });
     }
 }
