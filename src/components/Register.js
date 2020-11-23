@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { renderTextField, required, email} from '../common/form';
 import { Field, reduxForm, SubmissionError} from 'redux-form';
+import { Link } from 'react-router-dom';
 
 import { handleSignUp } from '../redux/auth/actions';
 
@@ -16,7 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -77,12 +78,14 @@ const validate = values => {
 
 function Register(props) {
   const classes = useStyles();
-  const [ hasError, setHasError ] = useState({});
+  const [ isSucess, setIsSucess ] = useState(false);
   const { error, handleSubmit, pristine, reset, submitting, handleSignUp} = props;
   
   const onSubmit = values => {   
     // needs to put return in order throw submission will work. 
     return handleSignUp(values).then( resp => {
+      reset();
+      setIsSucess(true)
     }, (err) => {
       throw new SubmissionError(err.response.data);
     });
@@ -100,7 +103,11 @@ function Register(props) {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
+          
+
           {error && <strong>{error}</strong>}
+          {isSucess && <Alert severity="success">Congratulations, your account has been successfully created.</Alert>}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Field
               name="email"

@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 
 
@@ -28,21 +29,19 @@ import './App.css';
 function App({user}) {
   useEffect( ()=> {
   }, [user])
-  
-  const RootComponent = () => {
-    if(user.loggedIn) {
-      return <Dashboard></Dashboard>
-    }else {
-      return <Public></Public>
-    }
-  }
 
+  const {loggedIn}  = user;
+  
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/" component={RootComponent} />
-          <Route path="/login/" component={Login} />
+          <Route exact path="/">
+          {loggedIn ? <Dashboard/> : <Public />}
+          </Route>
+          <Route exact path="/login/">
+            {loggedIn ? <Redirect to="/" /> : <Login />}
+          </Route>
           <Route path="/register/" component={Register} />
         </Switch>
       </Router>
