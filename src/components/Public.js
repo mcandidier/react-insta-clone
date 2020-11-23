@@ -12,7 +12,6 @@ function Public(props) {
 
   return (
     <div>
-      <h1>Landing Page</h1>
       { user.loggedIn ? 
         <div>
           your'e logged in.
