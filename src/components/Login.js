@@ -105,7 +105,6 @@ function Login(props) {
             validate={[required]}
             />
             { hasError ? <p>Unable to log in with provided credentials.</p> : ''}
-
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
