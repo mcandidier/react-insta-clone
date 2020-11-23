@@ -14,16 +14,23 @@ export const SET_USER = (data) => {
   }
 }
 
-export const handleLogin = (data, callback) => {
+export const handleLogin = (data, errorCallback) => {
     return (dispatch) => {
         return API.post('accounts/login/', data).then( resp => {
           dispatch(LOGIN(resp.data));
           dispatch(SET_USER());
-        }, () => {
-          callback();
+        }, (err) => {
+          errorCallback(err);
         });
     }
 }
+
+export const handleSignUp = (data) => {
+  return (dispatch) => {
+    return API.post('accounts/register/', data);
+  }
+}
+
 
 export const getCurrentUser = () => {
   return (dispatch) => {

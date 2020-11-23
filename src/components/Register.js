@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { renderTextField, required, email} from '../common/form';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError} from 'redux-form';
 
-import { handleLogin } from '../redux/auth/actions';
+import { handleSignUp } from '../redux/auth/actions';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -77,11 +77,15 @@ const validate = values => {
 
 function Register(props) {
   const classes = useStyles();
-  const [ hasError, setHasError ] = useState(false);
-  const { handleSubmit, pristine, reset, submitting} = props;
+  const [ hasError, setHasError ] = useState({});
+  const { error, handleSubmit, pristine, reset, submitting, handleSignUp} = props;
   
-  const onSubmit = values => {
-    console.log(values, 'values');
+  const onSubmit = values => {   
+    // needs to put return in order throw submission will work. 
+    return handleSignUp(values).then( resp => {
+    }, (err) => {
+      throw new SubmissionError(err.response.data);
+    });
   }
 
   return (
@@ -96,6 +100,7 @@ function Register(props) {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
+          {error && <strong>{error}</strong>}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Field
               name="email"
@@ -149,6 +154,7 @@ function Register(props) {
 
 Register  = connect(
   null, {
+    handleSignUp,
   }
 )(Register)
 
