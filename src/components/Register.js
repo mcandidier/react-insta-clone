@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import { renderTextField, required } from '../common/form';
+import { renderTextField, required, email} from '../common/form';
 import { Field, reduxForm } from 'redux-form';
 
 import { handleLogin } from '../redux/auth/actions';
@@ -64,23 +64,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-const asyncValidate = (values /*, dispatch */) => {
-  return sleep(1000).then(() => {
-    const {password, confirm_password} = values;
-    if(confirm_password !== password) {
-      throw { confirm_password: 'Password mismatch!' }
-    }
-  })
-}
+
+const validate = values => {
+  const errors = {};
+  const { confirm_password, password} = values;
+  if (confirm_password !== password) {
+    errors.confirm_password = 'Password mismatched' ;
+  }
+  return errors;
+};
 
 
 function Register(props) {
   const classes = useStyles();
   const [ hasError, setHasError ] = useState(false);
   const { handleSubmit, pristine, reset, submitting} = props;
+  
   const onSubmit = values => {
-    console.log(values);
+    console.log(values, 'values');
   }
 
   return (
@@ -100,7 +101,7 @@ function Register(props) {
               name="email"
               component={renderTextField}
               type="email"
-              validate={required}
+              validate={[required, email]}
               label="Your email address"
               />
               <Field
@@ -153,6 +154,5 @@ Register  = connect(
 
 export default reduxForm({
   form: 'registerForm', // a unique name for this form
-  asyncValidate,
-  asyncChangeFields: ['confirm_password']
+  validate,
 })(Register);
