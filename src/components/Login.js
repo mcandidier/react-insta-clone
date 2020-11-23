@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { renderTextField, required } from '../common/form';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import { handleLogin } from '../redux/auth/actions';
 
@@ -67,14 +67,15 @@ const useStyles = makeStyles((theme) => ({
 function Login(props) {
   const classes = useStyles();
   const { handleSubmit, pristine, reset, handleLogin} = props;
-  const [ hasError, setHasError ] = useState(false);
 
   const remoteError = () => {
-    setHasError(true);
+    throw new SubmissionError({
+      password: 'Unable to log in with provided credentials.'
+    });
   }
 
   const onSubmit = (values) => {
-      handleLogin(values, remoteError);
+    return handleLogin(values, remoteError);
   }
 
   return (
@@ -104,7 +105,6 @@ function Login(props) {
             type="password"
             validate={[required]}
             />
-            { hasError ? <p>Unable to log in with provided credentials.</p> : ''}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
