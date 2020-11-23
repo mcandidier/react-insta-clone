@@ -20,19 +20,3 @@ export const renderTextField = ({
     {...custom}
   />
 )
-
-export const validate = values => {
-  console.log(values, 'values')
-  const errors = {}
-  const requiredFields = [
-    'description',
-    'image'
-  ]
-
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  })
-  return errors
-}

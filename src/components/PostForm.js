@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import API from '../api';
 import { createPost } from '../actions';
 
-import { renderTextField, validate } from '../common/form';
+import { renderTextField, required } from '../common/form';
+
 
 const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
 
@@ -65,6 +66,7 @@ function PostForm(props) {
           name="description"
           component={renderTextField}
           label="Write caption"
+          validate={[required]}
         />
       </div>
       <div>
@@ -73,13 +75,12 @@ function PostForm(props) {
           name="image"
           type="file"
           component={FileInput}
+          validate={[required]}
         />
       </div>
       <button type="submit" disabled={pristine || submitting}>
           Submit
         </button>
-
-      {/* <Button type="submit" fullWidth="true" variant="contained" color="primary" disabled={ pristine || submitting}>Post</Button> */}
     </form>
   )
 }
@@ -87,5 +88,4 @@ function PostForm(props) {
 
 export default reduxForm({
   form: 'postForm', // unique identifier
-  validate,
 })(PostForm);
