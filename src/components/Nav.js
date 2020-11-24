@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
  
 function Nav(props) {
     const classes = useStyles();
-    const { handleClickOpen, user } = props;
+    const { handleLogout, handleClickOpen, user } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
