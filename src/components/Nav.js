@@ -11,6 +11,7 @@ import { handleLogout } from '../redux/auth/actions';
 
 import '../App.css';
 
+import CONFIG from '../config';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,11 +31,10 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '40px',
     }
 }));
-
-
-function Nav({ handleClickOpen, handleLogout }) {
+ 
+function Nav(props) {
     const classes = useStyles();
-
+    const { handleClickOpen, user } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -45,7 +45,8 @@ function Nav({ handleClickOpen, handleLogout }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    console.log(CONFIG.apiHost + user.profile_photo)
+      
     return (
         <div className="app__header">
             <div className="left">
@@ -62,10 +63,12 @@ function Nav({ handleClickOpen, handleLogout }) {
                 <Icon className="material-icons-outlined">home</Icon>
                 <Icon className="material-icons-outlined">favorite-border</Icon>
                 
-                <Avatar alt="user"
+                <Avatar
+                  alt={user.email}
                   className={classes.small}
                   onClick={handleClick}
-                ></Avatar>
+                  src={`${CONFIG.apiHost}${user.profile_photo}`}
+                />
 
                 <div>
                     <Menu
@@ -86,7 +89,11 @@ function Nav({ handleClickOpen, handleLogout }) {
         </div>
     )
 }
+const mapStateToProps = (state, ownProps) => {
+  const {user} = state;
+  return {user}
+};
 
-export default connect(null, {
+export default connect(mapStateToProps, {
   handleLogout,
 })(Nav);

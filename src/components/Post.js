@@ -5,12 +5,13 @@ import Icon from '@material-ui/core/Icon';
 import { likePost } from '../actions';
 
 import moment from 'moment';
+import CONFIG from '../config';
+import { connect } from 'react-redux';
+
 
 function Post({obj}){
     const [post, setPost ] = useState(obj);
-    const baseUrl = 'http://localhost:8000';
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
-    const user = {'id': 1 };
 
     useEffect(() => {
       setPost(obj);
@@ -29,12 +30,12 @@ function Post({obj}){
     return (
         <div className="app__post">
             <header>
-                <Avatar>{post.username.slice(0, 1)}</Avatar>
-            <h4><a href="">{post.username}</a></h4>
+                <Avatar src={CONFIG.apiHost+post.user.profile_photo}>{post.user.username.slice(0, 1)}</Avatar>
+            <h4>{post.user.username}</h4>
             </header>
             <div className="content">
                 <section class="img-section">
-                    <img src={baseUrl+post.image}/>
+                    <img src={CONFIG.apiHost+post.image}/>
                 </section>
 
                 <section className="actions">
@@ -48,7 +49,7 @@ function Post({obj}){
                     </div>
                 </section>
                 <section className="info">
-                    <strong>{post.username} </strong><span>
+                    <strong>{post.user.username} </strong><span>
                     {post.description}
                     </span>
                     <p>
@@ -61,4 +62,4 @@ function Post({obj}){
     )
 }
 
-export default Post;
+export default connect(null, {})(Post);
