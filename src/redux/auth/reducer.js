@@ -13,9 +13,9 @@ export default function user(state=INITIAL_STATE, action) {
         return Object.assign({}, state, { loggedIn: true, token:token });
       case 'LOGOUT':
         localStorage.removeItem('access-token');
-        console.log('logout');
-        return Object.assign({}, state, INITIAL_STATE);
+        return {};
       case 'SET_USER':
+        action.data.loggedIn = true;
         return Object.assign({}, state, action.data);    
       default:
         return state

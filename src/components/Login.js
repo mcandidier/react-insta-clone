@@ -143,7 +143,6 @@ function Login(props) {
 Login = connect(
   null, {
     handleLogin,
-
   }
 )(Login);
 

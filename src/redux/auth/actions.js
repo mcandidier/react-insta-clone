@@ -18,7 +18,7 @@ export const handleLogin = (data, errorCallback) => {
     return (dispatch) => {
         return API.post('accounts/login/', data).then( resp => {
           dispatch(LOGIN(resp.data));
-          dispatch(SET_USER());
+          dispatch(getCurrentUser());
         }, (err) => {
           errorCallback(err);
         });
