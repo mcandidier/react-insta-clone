@@ -27,11 +27,12 @@ function Post({obj}){
       }
     }
 
+    const username = post.user.username ? post.user.username : post.user.email;
     return (
         <div className="app__post">
             <header>
-                <Avatar src={CONFIG.apiHost+post.user.profile_photo}>{post.user.username.slice(0, 1)}</Avatar>
-            <h4>{post.user.username}</h4>
+                <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
+            <h4>{username}</h4>
             </header>
             <div className="content">
                 <section class="img-section">
