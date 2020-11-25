@@ -42,8 +42,7 @@ function Post({obj}){
                 <section className="actions">
                     <div className="like">
                         <Icon fontSize="24" 
-                              className={post.is_like?'':'material-icons-outlined'}
-                              onClick={handleLike}>thumb_up</Icon>
+                              onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
                     </div>
                     <div className="bookmark">
                         <Icon fontSize="24">bookmark_border</Icon>
