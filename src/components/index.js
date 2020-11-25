@@ -6,6 +6,8 @@ import PostForm from './PostForm';
 import Public from './Public';
 import Register from './Register';
 import Dashboard from './Dashboard';
+import Profile from './Profile';
+
 
 export {
   Public,
@@ -16,4 +18,5 @@ export {
   PostForm,
   Register,
   Dashboard,
+  Profile,
 }

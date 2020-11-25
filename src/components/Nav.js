@@ -5,15 +5,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleLogout } from '../redux/auth/actions';
 
 import '../App.css';
-
 import CONFIG from '../config';
 
 import { makeStyles } from '@material-ui/core/styles';
+import {  PostModal } from '../components';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,24 +29,44 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: '40px',
         marginRight: '40px',
+    },
+    reset: {
+      textDecoration: 'none',
+      color: '#000',
     }
 }));
  
-function Nav(props) {
+function Nav({user, handleLogout}) {
     const classes = useStyles();
-    const { handleLogout, handleClickOpen, user } = props;
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+    const history = useHistory();
+    const openMenu = Boolean(anchorEl);
+    const [open, setOpen] = useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleMenuClose = () => {
         setAnchorEl(null);
     };
-    console.log(CONFIG.apiHost + user.profile_photo)
-      
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const onLogout = () => {
+      handleLogout();
+      history.push('/');
+    }
+    const gotoHome = () => {
+      history.push('/');
+    }
+  
     return (
         <div className="app__header">
             <div className="left">
@@ -60,7 +80,7 @@ function Nav(props) {
             </div>
             <div className="nav-right">
                 <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
-                <Icon className="material-icons-outlined">home</Icon>
+                <Icon className="material-icons-outlined" onClick={gotoHome}>home</Icon>
                 <Icon className="material-icons-outlined">favorite-border</Icon>
                 
                 <Avatar
@@ -75,17 +95,19 @@ function Nav(props) {
                         id="fade-menu"
                         anchorEl={anchorEl}
                         keepMounted
-                        open={open}
-                        onClose={handleClose}
-                        className="menu"
+                        open={openMenu}
+                        onClose={handleMenuClose}
+                        className={classes.menu}
                     >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem>
+                          <Link className={classes.reset} to="/profile/"onClick={() => handleMenuClose()}>Profile</Link>
+                        </MenuItem>
                         <Divider light />
-                        <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+                        <MenuItem onClick={() => onLogout()}>Logout</MenuItem>
                     </Menu>
                 </div>
-                
             </div>
+            <PostModal open={open} handleClose={handleClose}></PostModal>
         </div>
     )
 }

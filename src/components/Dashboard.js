@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
+import { 
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link,
+} from 'react-router-dom';
+
+
 import{
-  Nav,
   Post,
   PostModal,
+  Profile,
 } from '../components';
 
 import { getAllPosts } from '../actions';
 
 
 function Dashboard(props) {
-  const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handlePostUpdate = (post) => {
     // Append a single item
     setPosts(posts => [post, ...posts]);
@@ -53,10 +52,16 @@ function Dashboard(props) {
 
   return (
     <div className="app__dashboard">
-      <Nav handleClickOpen={handleClickOpen}></Nav>
-      <PostModal open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} handlePostUpdate={handlePostUpdate}></PostModal>
       <div className="container">
-        {renderPosts()}
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              {renderPosts()}
+            </Route>
+            <Route exact path="/profile/" component={Profile}/>
+          </Switch>
+        </Router>
+          {renderPosts()}
       </div>
     </div>
   )

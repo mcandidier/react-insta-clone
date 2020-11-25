@@ -79,7 +79,6 @@ const mapDispatchToProps = dispatch => ({
         image.value = null;
       }
       dispatch(reset('postForm'));
-
     }
  });
 

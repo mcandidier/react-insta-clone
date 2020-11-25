@@ -10,16 +10,13 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-
 import{
   Nav,
-  Post,
-  PostModal,
-  PostForm,
   Dashboard,
   Public,
   Login,
   Register,
+  Profile,
 
 } from './components';
 
@@ -27,6 +24,9 @@ import './App.css';
 
 
 function App({user}) {
+
+
+
   useEffect( ()=> {
   }, [user])
 
@@ -35,6 +35,7 @@ function App({user}) {
   return (
     <div className="App">
       <Router>
+        {loggedIn && <Nav></Nav> }
         <Switch>
           <Route exact path="/">
           {loggedIn ? <Dashboard/> : <Public />}
@@ -43,6 +44,7 @@ function App({user}) {
             {loggedIn ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route path="/register/" component={Register} />
+          <Route exact path="/profile/" component={Profile} />
         </Switch>
       </Router>
     </div>
