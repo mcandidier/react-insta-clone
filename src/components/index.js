@@ -7,7 +7,7 @@ import Public from './Public';
 import Register from './Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
-
+import CollectionItem from './CollectionItem';
 
 export {
   Public,
@@ -19,4 +19,5 @@ export {
   Register,
   Dashboard,
   Profile,
+  CollectionItem,
 }

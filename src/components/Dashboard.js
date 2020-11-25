@@ -22,6 +22,10 @@ import { getAllPosts } from '../actions';
 function Dashboard(props) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // Todo: use redux for hanlding posts list
+
+  
   const handlePostUpdate = (post) => {
     // Append a single item
     setPosts(posts => [post, ...posts]);

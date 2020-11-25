@@ -56,7 +56,6 @@ function Post({obj}){
                         <small className="timestamp">{timestamp}</small>
                     </p>
                 </section>
-            
             </div>
         </div>
     )

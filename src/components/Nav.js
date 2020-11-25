@@ -54,7 +54,6 @@ function Nav({user, handleLogout}) {
     const handleClickOpen = () => {
       setOpen(true);
     };
-  
     const handleClose = () => {
       setOpen(false);
     };
@@ -81,8 +80,7 @@ function Nav({user, handleLogout}) {
             <div className="nav-right">
                 <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
                 <Icon className="material-icons-outlined" onClick={gotoHome}>home</Icon>
-                <Icon className="material-icons-outlined">favorite-border</Icon>
-                
+                <Icon className="material-icons">favorite_border_outlined</Icon>
                 <Avatar
                   alt={user.email}
                   className={classes.small}
