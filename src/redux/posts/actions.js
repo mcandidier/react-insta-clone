@@ -8,11 +8,45 @@ export const setCollections= (posts) => {
 }
 
 export const getUserCollections = () => {
-  console.log('getUserCollections')
   return (dispatch) => {
     return API.get('posts/').then( resp => {
-
         dispatch(setCollections(resp.data));
+    }, (err) => {
+      console.log(err);
+    });
+  }
+}
+
+// ============================================== //
+export const setPosts = (posts) => {
+  return {
+    type: 'SET_POSTS',
+    posts
+  }
+}
+
+export const insertItem = (post) => {
+  return {
+    type: 'ADD_POST',
+    post
+  }
+}
+
+export const getPosts = () => {
+  return (dispatch) => {
+    return API.get('posts/').then( resp => {
+        dispatch(setPosts(resp.data));
+    }, (err) => {
+      console.log(err);
+    });
+  }
+}
+
+export const addPost = (data, callback) => {
+  return (dispatch) => {
+    return API.post('posts/', data).then( resp => {
+      dispatch(insertItem(resp.data));
+      callback();
     }, (err) => {
       console.log(err);
     });

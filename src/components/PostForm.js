@@ -6,10 +6,9 @@ import Input from '@material-ui/core/Input';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import API from '../api';
-import { createPost } from '../actions';
-
 import { renderTextField, required } from '../common/form';
 
+import { addPost } from '../redux/posts/actions';
 
 const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
 
@@ -32,23 +31,14 @@ const FileInput = ({
 
 function PostForm(props) {
   const [count, setCount] = useState(0);
-  const { handleSubmit, pristine, reset, submitting, classes, handlePostUpdate, handleClose } = props;
+  const { handleSubmit, pristine, reset, submitting, classes, handleClose, addPost } = props;
 
-
-  const onSubmit = async (values) => {
-
+  const onSubmit = (values) => {
     let formData = new FormData();
     for (let [key, value] of Object.entries(values)) {
       formData.append(key, value);
     }
-
-    try {
-      const res = await createPost(formData);
-      handlePostUpdate(res.data); // insert new object to posts array
-      handleClose();
-    } catch (error) {
-      console.log('error');
-    }
+    addPost(formData, handleReset);
   }
 
   const handleReset = () => {
@@ -57,6 +47,7 @@ function PostForm(props) {
     if(image.value) {
       image.value = null;
     }
+    handleClose();
   }
 
   return (
@@ -85,6 +76,11 @@ function PostForm(props) {
   )
 }
 
+PostForm = connect(
+  null, {
+    addPost
+  }
+)(PostForm);
 
 export default reduxForm({
   form: 'postForm', // unique identifier

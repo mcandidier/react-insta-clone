@@ -9,7 +9,6 @@ import {
   Link,
 } from 'react-router-dom';
 
-
 import{
   Post,
   PostModal,
@@ -17,58 +16,35 @@ import{
 } from '../components';
 
 import { getAllPosts } from '../actions';
+import { getPosts } from '../redux/posts/actions';
 
 
 function Dashboard(props) {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // Todo: use redux for hanlding posts list
-
-  
-  const handlePostUpdate = (post) => {
-    // Append a single item
-    setPosts(posts => [post, ...posts]);
-  }
-
-  const fetchData = async () => {
-    setLoading(true);
-    const result = await getAllPosts();
-    if(result.data) {
-      setPosts(result.data);
-    }
-  };
-
-  useEffect( () => {
-      fetchData();
-      return () => {
-        setLoading(false);
-      }
-  }, []);
-
-
+  const {posts} = props;
   const renderPosts = () => {
     return posts.map((post, index) => 
       <Post key={index} obj={post}></Post>
     )
   };
 
-
   return (
     <div className="app__dashboard">
       <div className="container">
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              {renderPosts()}
-            </Route>
-            <Route exact path="/profile/" component={Profile}/>
-          </Switch>
-        </Router>
           {renderPosts()}
       </div>
     </div>
   )
 }
 
-export default connect()(Dashboard);
+const mapStateToProps = (state) => {
+  const { posts } = state;
+  return {
+    posts
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  dispatch(getPosts());
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
