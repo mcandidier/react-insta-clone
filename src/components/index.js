@@ -8,6 +8,9 @@ import Register from './Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import CollectionItem from './CollectionItem';
+import Settings from './Settings';
+import EditProfile from './EditProfile';
+
 
 export {
   Public,
@@ -20,4 +23,6 @@ export {
   Dashboard,
   Profile,
   CollectionItem,
+  Settings,
+  EditProfile,
 }

@@ -44,7 +44,6 @@ function Profile({user, collections}) {
 
   const renderItems = () => {
     return collections.map( (item, index) => 
-
       <Grid item xs={4}>
         <CollectionItem key={index} post={item}></CollectionItem>
       </Grid>
@@ -70,7 +69,6 @@ function Profile({user, collections}) {
                     <li><span>{user.followers}</span>{user.followers == 1? ' follower': ' followers'}</li>
                     <li><span>{user.following}</span> following</li>
                 </ul>
-
                 <div>
                   <h4>{fullname}</h4>
                   <br/>

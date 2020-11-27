@@ -17,6 +17,7 @@ import{
   Login,
   Register,
   Profile,
+  Settings,
 
 } from './components';
 
@@ -44,7 +45,8 @@ function App({user}) {
             {loggedIn ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route path="/register/" component={Register} />
-          <Route exact path="/profile/" component={Profile} />
+          <Route exact path="/profile/" component={Profile}/>
+          <Route exact path="/settings/" component={Settings} />
         </Switch>
       </Router>
     </div>

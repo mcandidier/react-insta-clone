@@ -109,12 +109,19 @@ function Register(props) {
           {isSucess && <Alert severity="success">Congratulations, your account has been successfully created.</Alert>}
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Field
+              <Field
               name="email"
               component={renderTextField}
               type="email"
               validate={[required, email]}
               label="Your email address"
+              />
+              <Field
+              name="username"
+              component={renderTextField}
+              type="text"
+              validate={[required]}
+              label="Username"
               />
               <Field
               name="password"
