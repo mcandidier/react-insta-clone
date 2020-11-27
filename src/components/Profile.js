@@ -66,9 +66,9 @@ function Profile({user, collections}) {
                 <h3>{username}</h3>
                 <Button variant="outlined">Edit Profile <SettingsIcon/></Button>
                 <ul>
-                  <li><span>157</span> posts</li>
-                  <li><span>140</span> followers</li>
-                  <li><span>403</span> following</li>
+                    <li><span>{collections.length}</span> posts</li>
+                    <li><span>{user.followers}</span>{user.followers == 1? ' follower': ' followers'}</li>
+                    <li><span>{user.following}</span> following</li>
                 </ul>
 
                 <div>
