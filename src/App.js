@@ -18,7 +18,7 @@ import{
   Register,
   Profile,
   Settings,
-
+  EditProfile,
 } from './components';
 
 import './App.css';
@@ -46,7 +46,7 @@ function App({user}) {
           </Route>
           <Route path="/register/" component={Register} />
           <Route exact path="/profile/" component={Profile}/>
-          <Route exact path="/settings/" component={Settings} />
+          <Route path="/settings/" component={Settings} />
         </Switch>
       </Router>
     </div>

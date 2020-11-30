@@ -10,6 +10,7 @@ import Profile from './Profile';
 import CollectionItem from './CollectionItem';
 import Settings from './Settings';
 import EditProfile from './EditProfile';
+import ChangePassword from './ChangePassword';
 
 
 export {
@@ -25,4 +26,5 @@ export {
   CollectionItem,
   Settings,
   EditProfile,
+  ChangePassword
 }
