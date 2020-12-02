@@ -101,7 +101,7 @@ function Nav({user, handleLogout}) {
                           <Link className={classes.reset} to="/profile/" onClick={() => handleMenuClose()}>Profile</Link>
                         </MenuItem>
                         <MenuItem>
-                          <Link className={classes.reset} to="/settings/" onClick={() => handleMenuClose()}>Settings</Link>
+                          <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>
                         </MenuItem>
                         <Divider light />
                         <MenuItem onClick={() => onLogout()}>Logout</MenuItem>

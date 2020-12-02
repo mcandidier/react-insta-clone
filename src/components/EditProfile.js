@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, FormControlLabel, Button, TextField, Container }  from '@material-ui/core';
 import { renderTextField, required } from '../common/form';
 
+import { updateUserProfile } from '../redux/auth/actions';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,28 +22,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const xxx = (values) => {
-  console.log(values);
-}
+
 
 function EditProfile(props) {
-  const {handleSubmit, pristine, reset, user, submitting} = props;
+  const {handleSubmit, pristine, reset, user, submitting, updateUserProfile } = props;
   const classes = useStyles(); 
   
+  const onSumbit = (values) => {
+    updateUserProfile(values);
+  }
+
   return (
     <Container maxWidth="sm">
       <Grid container spacing={1}>
         {typeof user.email =='undefined' ?
           <p>loading...</p>
         :
-        <form onSubmit={handleSubmit(xxx)} className={classes.form} noValidate>
+        <form onSubmit={handleSubmit(onSumbit)} className={classes.form} noValidate>
           <Grid item xs={12}>
             <Field
             name="email"
             component={renderTextField}
             label="Your email address"
             type="email"
+            validate={[required]}
             fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Field
+            name="username"
+            component={renderTextField}
+            label="Username"
+            fullWidth
+            validate={[required]}
             />
           </Grid>
           <Grid item sm={12}>
@@ -74,7 +88,8 @@ function EditProfile(props) {
             type="submit"
             variant="contained"
             color="primary"
-            className={classes.submit}>
+            className={classes.submit}
+            disabled={pristine || submitting}>
               Submit
           </Button>
         </form>
@@ -86,7 +101,7 @@ function EditProfile(props) {
 
 const mapStateToProps = (state, ownProps) => {
   const {user} = state;
-  const initialValues = (({ first_name, last_name, email, bio }) => ({ first_name, last_name, email, bio }))(state.user)
+  const initialValues = (({ first_name, last_name, email, bio, username }) => ({ first_name, last_name, email, bio, username}))(state.user)
   return {user, initialValues}
 }
 
@@ -96,5 +111,7 @@ EditProfile = reduxForm({
 })(EditProfile)
 
 export default connect(
-  mapStateToProps, {}
+  mapStateToProps, {
+    updateUserProfile
+  }
 )(EditProfile)

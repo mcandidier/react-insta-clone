@@ -40,6 +40,15 @@ export const getCurrentUser = () => {
   }
 }
 
+export const updateUserProfile = (data) => {
+  return (dispatch) => {
+    return API.put('accounts/profile/', data).then( resp => {
+      dispatch(SET_USER(resp.data))
+    });
+    
+  }
+}
+
 export const handleLogout = () => {
   return (dispatch) => {
     dispatch({type: 'LOGOUT'});
