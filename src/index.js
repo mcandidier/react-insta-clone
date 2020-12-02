@@ -11,16 +11,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import reducer from './redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { getCurrentUser } from './redux/auth/actions'
 
 const store = createStore(reducer, composeWithDevTools(
   applyMiddleware(thunk)
 ));
-
-// TODO: needs refactor
-if(localStorage.getItem('access-token')) {
-  store.dispatch(getCurrentUser());
-}
 
 ReactDOM.render(
   <Provider store={store}>

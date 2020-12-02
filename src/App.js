@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, connect } from 'react-redux';
 
-import { userLogin, userLogout,LOGIN } from './redux/auth/actions';
+import { userLogin, userLogout,LOGIN, getCurrentUser} from './redux/auth/actions';
+
 
 import { 
   BrowserRouter as Router,
@@ -25,9 +26,6 @@ import './App.css';
 
 
 function App({user}) {
-
-
-
   useEffect( ()=> {
   }, [user])
 
@@ -59,5 +57,9 @@ const mapStateToProps = (state, ownProps) => {
   return {user}
 }
 
-export default connect(mapStateToProps, {
-})(App);
+const mapDispatchToProps = (dispatch) => {
+  dispatch(getCurrentUser());
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
