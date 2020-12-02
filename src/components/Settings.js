@@ -17,45 +17,48 @@ import {
   Redirect,
   Link
 } from 'react-router-dom';
+import { colors } from '@material-ui/core';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+// function TabPanel(props) {
+//   const { children, value, index, ...other } = props;
+//   console.log(value, 'xx')
+//   return (
+//     <div
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`vertical-tabpanel-${index}`}
+//       aria-labelledby={`vertical-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && (
+//         <Box p={3}>
+//           <Typography>{children}</Typography>
+//         </Box>
+//       )}
+//     </div>
+//   );
+// }
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+// TabPanel.propTypes = {
+//   children: PropTypes.node,
+//   index: PropTypes.any.isRequired,
+//   value: PropTypes.any.isRequired,
+// };
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
+// function a11yProps(index) {
+//   return {
+//     id: `vertical-tab-${index}`,
+//     'aria-controls': `vertical-tabpanel-${index}`,
+//   };
+// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
+    height: '85vh',
+    margin: theme.spacing(4, 2),
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -69,25 +72,24 @@ function Settings(props) {
   const [value, setValue] = useState(0);
   const [orientation, setOrientation] = useState('vertical');
   const match = props.match;
+  
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const renderTabs = () => {
     return <Tabs
-    variant="fullWidth"
-    orientation={orientation}
-    value={value}
-    onChange={handleChange}
-    aria-label="Vertical tabs example"
-    className={classes.tabs}
-    >
-      <Tab label="Item One" {...a11yProps(0)} />
-      <Tab label="Item Two" {...a11yProps(1)} />
-      <Tab label="Item Three" {...a11yProps(2)} />
-      <Tab label="Item Four" {...a11yProps(3)} />
-      <Tab label="Item Five" {...a11yProps(4)} />
-      <Tab label="Item Six" {...a11yProps(5)} />
-      <Tab label="Item Seven" {...a11yProps(6)}/>
+      variant="fullWidth"
+      orientation={orientation}
+      value={value}
+      onChange={handleChange}
+      aria-label="Vertical tabs example"
+      className={classes.tabs}
+      initialSelectedIndex={0}>
+      <Tab label="Edit Profile" component={Link} to="/settings/profile/" />
+      <Tab label="Change Password" component={Link} to="/settings/change_password/" />
     </Tabs>
-     
   }
   
   useEffect(() => {
@@ -99,25 +101,12 @@ function Settings(props) {
   }, [orientation, renderTabs]);
 
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <div>
     <Container maxWidth="md">
-      <Grid container>
-        <Tabs value={location.pathname}
-            orientation={orientation}
-            variant="fullWidth"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            className={classes.tabs}
-        >
-          <Tab label="Edit Profile" component={Link} to="/settings/profile/" />
-          <Tab label="Change Password" component={Link} to="/settings/change_password/" />
-        </Tabs>
+      <Grid className={classes.root}>
+        {renderTabs()}
         <Switch>
           <Route path="/settings/profile/" component={EditProfile} />
           <Route path="/settings/change_password/" component={ChangePassword} />
