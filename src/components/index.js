@@ -12,8 +12,14 @@ import Settings from './Settings';
 import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
 
+// commmon components
+import SimpleDialog from '../common/SimpleModal';
+
 
 export {
+  // common components
+  SimpleDialog,
+  // core components
   Public,
   Nav,
   Post,
@@ -26,5 +32,5 @@ export {
   CollectionItem,
   Settings,
   EditProfile,
-  ChangePassword
+  ChangePassword,
 }

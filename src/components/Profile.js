@@ -15,6 +15,7 @@ import { getUserCollections } from '../redux/posts/actions';
 import { CollectionItem } from '../components';
 
 import CONFIG from '../config';
+import { Redirect, useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +40,7 @@ function Profile({user, collections}) {
   const username = user.username ? user.username: user.email;
   const fullname = `${user.first_name} ${user.last_name}`
   const classes = useStyles();
-  const post = collections[0];
+  const history = useHistory();
 
 
   const renderItems = () => {
@@ -63,7 +64,7 @@ function Profile({user, collections}) {
             <Grid item xs={9}>
               <div className="user-info">
                 <h3>{username}</h3>
-                <Button variant="outlined">Edit Profile <SettingsIcon/></Button>
+                <Button variant="outlined" onClick={() => history.push('/settings/profile/') }>Edit Profile<SettingsIcon/></Button>
                 <ul>
                     <li><span>{collections.length}</span> posts</li>
                     <li><span>{user.followers}</span>{user.followers == 1? ' follower': ' followers'}</li>

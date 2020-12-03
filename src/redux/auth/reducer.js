@@ -1,3 +1,5 @@
+import omit from "lodash/omit"; // load only functions you needed not entire library
+
 const token = localStorage.getItem('access-token', null);
 
 const INITIAL_STATE = {
@@ -16,7 +18,10 @@ export default function user(state=INITIAL_STATE, action) {
         return {};
       case 'SET_USER':
         action.data.loggedIn = true;
-        return Object.assign({}, state, action.data);    
+        return Object.assign({}, state, action.data); 
+      case 'REMOVE_PHOTO':
+        console.log('reducer remove')
+        return omit(state, ['profile_photo'])
       default:
         return state
     }

@@ -102,3 +102,8 @@ body {
 .gallery-item-info {
   display: none;
 }
+
+.break {
+  height: 0;
+  flex-basis: 100%;
+}

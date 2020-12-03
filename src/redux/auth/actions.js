@@ -54,3 +54,12 @@ export const handleLogout = () => {
     dispatch({type: 'LOGOUT'});
   }
 }
+
+export const handleRemoveProfilePhoto = () => {
+  // Remove user profile photo
+  return (dispatch) => {
+    return API.delete('accounts/profile/').then( res => {
+      dispatch({type: 'REMOVE_PHOTO'})
+    });
+  }
+}
