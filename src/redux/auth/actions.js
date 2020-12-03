@@ -14,6 +14,12 @@ export const SET_USER = (data) => {
   }
 }
 
+export const handleLogout = () => {
+  return (dispatch) => {
+    dispatch({type: 'LOGOUT'});
+  }
+}
+
 export const handleLogin = (data, errorCallback) => {
     return (dispatch) => {
         return API.post('accounts/login/', data).then( resp => {
@@ -49,17 +55,20 @@ export const updateUserProfile = (data) => {
   }
 }
 
-export const handleLogout = () => {
-  return (dispatch) => {
-    dispatch({type: 'LOGOUT'});
-  }
-}
-
 export const handleRemoveProfilePhoto = () => {
   // Remove user profile photo
   return (dispatch) => {
     return API.delete('accounts/profile/').then( res => {
       dispatch({type: 'REMOVE_PHOTO'})
+    });
+  }
+}
+
+export const handleUpdateUserProfilePhoto = (data) => {
+  return (dispatch) => {
+    return API.post('accounts/profile/', data).then( res => {
+      const data = res.data;
+      dispatch({type: 'SET_PHOTO', data});
     });
   }
 }

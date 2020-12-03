@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -8,11 +8,14 @@ import { Grid, FormControlLabel, Button, TextField,
         Container, Avatar, Typography, Divider,
         List, ListItem, ListItemText 
 }  from '@material-ui/core';
-import { renderTextField, required } from '../common/form';
-import { updateUserProfile, handleRemoveProfilePhoto } from '../redux/auth/actions';
-import { SimpleDialog } from '../components';
-import CONFIG from '../config';
 
+
+import { renderTextField, required } from '../common/form';
+import { updateUserProfile, handleRemoveProfilePhoto, handleUpdateUserProfilePhoto } from '../redux/auth/actions';
+import { SimpleDialog } from '../components';
+
+
+import CONFIG from '../config';
 import '../css/EditProfile.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,19 +49,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
 function EditProfile(props) {
-  const {handleSubmit, pristine, reset, user, submitting, updateUserProfile, handleRemoveProfilePhoto } = props;
+  const {handleSubmit, pristine, reset, user, submitting, updateUserProfile, handleRemoveProfilePhoto, handleUpdateUserProfilePhoto } = props;
   const classes = useStyles(); 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
+  const fileRef = useRef(null);
 
   const onSumbit = (values) => {
     updateUserProfile(values);
     reset();
   }
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,6 +72,19 @@ function EditProfile(props) {
 
   const handleRemovePhoto = () => {
     handleRemoveProfilePhoto();
+    handleClose();
+  }
+
+  const handleClickUpload = () => {
+    fileRef.current.click();
+  }
+
+  const handleUpload = (e) => {
+    let formData = new FormData();
+    formData.append('profile_photo', e.target.files[0]);
+    handleUpdateUserProfilePhoto(formData);
+    handleClose();
+    e.target.value = null;
   }
 
   const renderModalTemplate = () => {
@@ -79,10 +93,10 @@ function EditProfile(props) {
       <div>
         <List component="nav" aria-label="main mailbox folders">
           <ListItem button>
-            <ListItemText classes={classes.text} primary="Upload" />
+            <ListItemText classes={classes.text} onClick={handleClickUpload} primary="Upload" />
           </ListItem>
-          <ListItem button onClick={handleRemovePhoto}>
-            <ListItemText classes={classes.text}  primary="Remove Photo" />
+          <ListItem button>
+            <ListItemText classes={classes.text}  onClick={handleRemovePhoto} primary="Remove Photo" />
           </ListItem>
           <ListItem button onClick={()=> handleClose()}>
             <ListItemText classes={classes.text} secondary="Cancel"/>
@@ -163,6 +177,8 @@ function EditProfile(props) {
                 Submit
             </Button>
           </form>
+          {/* upload file goes here */}
+          <input ref={fileRef} type="file" style={{visibility: 'hidden'}} onChange={handleUpload}/>
           </div>
           }
       </Grid>
@@ -186,6 +202,7 @@ EditProfile = reduxForm({
 export default connect(
   mapStateToProps, {
     updateUserProfile,
-    handleRemoveProfilePhoto
+    handleRemoveProfilePhoto,
+    handleUpdateUserProfilePhoto
   }
 )(EditProfile)
