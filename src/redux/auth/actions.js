@@ -72,3 +72,9 @@ export const handleUpdateUserProfilePhoto = (data) => {
     });
   }
 }
+
+export const handleChangePassword = data => {
+  return (dispatch) => {
+    return API.post('accounts/change-password/', data);
+  }
+}
