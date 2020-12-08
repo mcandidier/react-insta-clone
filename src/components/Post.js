@@ -41,11 +41,11 @@ function Post({obj}){
 
                 <section className="actions">
                     <div className="like">
-                        <Icon fontSize="24" 
+                        <Icon fontSize="default" 
                               onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
                     </div>
                     <div className="bookmark">
-                        <Icon fontSize="24">bookmark_border</Icon>
+                        <Icon fontSize="default">bookmark_border</Icon>
                     </div>
                 </section>
                 <section className="info">

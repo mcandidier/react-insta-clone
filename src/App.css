@@ -99,6 +99,18 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.gallery-item:hover .gallery-item-info,
+.gallery-item:focus .gallery-item-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 .gallery-item-info {
   display: none;
 }
@@ -106,4 +118,27 @@ body {
 .break {
   height: 0;
   flex-basis: 100%;
+}
+
+
+.gallery-item-info li {
+  display: inline-block;
+  font-weight: 600;
+  color: #fff;
+}
+
+.gallery-item-info li > span {
+  font-size: 1rem;
+  line-height: 1.3rem;
+}
+
+.gallery-item-likes {
+  margin-right: 2.2rem;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
 }
