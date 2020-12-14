@@ -7,9 +7,9 @@ export const setCollections= (posts) => {
   }
 }
 
-export const getUserCollections = () => {
+export const getUserCollections = (username) => {
   return (dispatch) => {
-    return API.get('posts/').then( resp => {
+    return API.get(`accounts/${username}/posts/`).then( resp => {
         dispatch(setCollections(resp.data));
     }, (err) => {
       console.log(err);

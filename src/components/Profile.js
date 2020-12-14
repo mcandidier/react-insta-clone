@@ -98,8 +98,7 @@ function Profile(props) {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {profile, user} = state;
-  const collections = [];
+  const {profile, user, collections} = state;
   const { username } = ownProps.match.params;
   return { profile, collections, user }
 }
@@ -107,6 +106,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {username} = ownProps.match.params;
   dispatch(getUserProfile(username));
+  dispatch(getUserCollections(username));
   return {}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
