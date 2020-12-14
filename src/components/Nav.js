@@ -42,6 +42,7 @@ function Nav({user, handleLogout}) {
     const history = useHistory();
     const openMenu = Boolean(anchorEl);
     const [open, setOpen] = useState(false);
+    const profileLink = `/${user.username}/`
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -98,7 +99,7 @@ function Nav({user, handleLogout}) {
                         className={classes.menu}
                     >
                         <MenuItem>
-                          <Link className={classes.reset} to="/profile/" onClick={() => handleMenuClose()}>Profile</Link>
+                          <Link className={classes.reset} to={profileLink} onClick={() => handleMenuClose()}>Profile</Link>
                         </MenuItem>
                         <MenuItem>
                           <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>

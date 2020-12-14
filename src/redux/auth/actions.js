@@ -40,18 +40,22 @@ export const handleSignUp = (data) => {
 
 export const getCurrentUser = () => {
   return (dispatch) => {
-      return API.get('accounts/current/').then( resp => {
+      return API.get(`accounts/current/`).then( resp => {
         dispatch(SET_USER(resp.data));
       });
   }
 }
+
+export const getUserProfile = (username) => {
+  return API.get(`accounts/${username}/`);
+}
+
 
 export const updateUserProfile = (data) => {
   return (dispatch) => {
     return API.put('accounts/profile/', data).then( resp => {
       dispatch(SET_USER(resp.data))
     });
-    
   }
 }
 

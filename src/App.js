@@ -43,8 +43,9 @@ function App({user}) {
             {loggedIn ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route path="/register/" component={Register} />
-          <Route exact path="/profile/" component={Profile}/>
+          {/* <Route exact path="/profile/" component={Profile}/> */}
           <Route path="/settings/" component={Settings} />
+          <Route path="/:username" component={Profile} />
         </Switch>
       </Router>
     </div>

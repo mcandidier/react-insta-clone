@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { bindActionCreators } from 'redux';
 
 import { connect } from 'react-redux';
 
@@ -11,6 +12,8 @@ import Button from '@material-ui/core/Button';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import { getUserCollections } from '../redux/posts/actions';
+import { getUserProfile } from '../redux/auth/actions';
+
 
 import { CollectionItem } from '../components';
 
@@ -36,23 +39,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Profile({user, collections}) {
-  const username = user.username ? user.username: user.email;
-  const fullname = `${user.first_name} ${user.last_name}`
+function Profile(props) {
+  const {collections, getUserProfile } = props;
   const classes = useStyles();
   const history = useHistory();
+  const {username} = props.match.params;
+  const [user, setUser] = useState(null);
 
+  useEffect( () => {
+    if(!user) {
+      getUserProfile(username).then( resp => {
+        setUser(resp.data);
+      });
+    }
+  },[])
 
   const renderItems = () => {
     return collections.map( (item, index) => 
       <Grid item xs={4}>
         <CollectionItem key={index} post={item}></CollectionItem>
       </Grid>
-    );    
+    ); 
   }
 
   return (
     <div className="app__profile">
+      { user && 
       <Container maxWidth="md">
         <div className={classes.root}>
           <Grid container spacing={3}>
@@ -63,7 +75,7 @@ function Profile({user, collections}) {
             </Grid>
             <Grid item xs={9}>
               <div className="user-info">
-                <h3>{username}</h3>
+                <h3>{user.username}</h3>
                 <Button variant="outlined" onClick={() => history.push('/settings/profile/') }>Edit Profile<SettingsIcon/></Button>
                 <ul>
                     <li><span>{collections.length}</span> posts</li>
@@ -71,7 +83,7 @@ function Profile({user, collections}) {
                     <li><span>{user.following}</span> following</li>
                 </ul>
                 <div>
-                  <h4>{fullname}</h4>
+                  <h4>{user.first_name + ' ' + user.last_name}</h4>
                   <br/>
                   <p>{user.bio}</p>
                 </div>
@@ -85,17 +97,23 @@ function Profile({user, collections}) {
           </Grid>
         </div>
       </Container>
-    </div>
-    )
+      }
+      </div>
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {user, collections} = state;
-  return {user, collections}
+  const collections = [];
+  if(state.user.username == ownProps.match.params.username) {
+    const {collections} = state;
+  }
+  return { collections }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  dispatch(getUserCollections());
+const mapDispatchToProps = (dispatch, ownProps) => {
+  // dispatch(getUserCollections());
+  return {
+    getUserProfile
+  }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
