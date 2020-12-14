@@ -47,7 +47,12 @@ export const getCurrentUser = () => {
 }
 
 export const getUserProfile = (username) => {
-  return API.get(`accounts/${username}/`);
+  return (dispatch) => {
+    return API.get(`accounts/${username}/`).then(resp => {
+      const {data} = resp;
+      dispatch({type: 'VIEW_PROFILE', data});
+    });
+  }
 }
 
 

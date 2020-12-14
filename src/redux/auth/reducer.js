@@ -1,4 +1,5 @@
 import omit from 'lodash/omit'; // load only functions you needed not entire library
+import { Profile } from '../../components';
 
 const token = localStorage.getItem('access-token', null);
 
@@ -7,7 +8,7 @@ const INITIAL_STATE = {
   token: token
 }
 
-export default function user(state=INITIAL_STATE, action) {
+export function user(state=INITIAL_STATE, action) {
     switch (action.type) {
       case 'LOGIN':
         localStorage.setItem('access-token', action.payload.token);
@@ -27,3 +28,13 @@ export default function user(state=INITIAL_STATE, action) {
         return state
     }
 }
+
+
+export function profile(state={}, action) {
+  switch (action.type) {
+    case 'VIEW_PROFILE':
+      return Object.assign({}, state, action.data)
+    default:
+      return state
+  }
+} 

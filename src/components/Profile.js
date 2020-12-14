@@ -40,52 +40,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Profile(props) {
-  const {collections, getUserProfile } = props;
+  const {collections, profile, user } = props;
   const classes = useStyles();
   const history = useHistory();
   const {username} = props.match.params;
-  const [user, setUser] = useState(null);
 
-  useEffect( () => {
-    if(!user) {
-      getUserProfile(username).then( resp => {
-        setUser(resp.data);
-      });
-    }
-  },[])
-
-  const renderItems = () => {
-    return collections.map( (item, index) => 
-      <Grid item xs={4}>
-        <CollectionItem key={index} post={item}></CollectionItem>
-      </Grid>
-    ); 
-  }
-
-  return (
-    <div className="app__profile">
-      { user && 
-      <Container maxWidth="md">
+  const renderProfile = () => {
+    return <Container maxWidth="md" key={profile.username}>
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Avatar alt={user.username} 
-                src={`${CONFIG.apiHost}${user.profile_photo}`} 
+              <Avatar alt={profile.username} 
+                src={`${CONFIG.apiHost}${profile.profile_photo}`} 
                 className={classes.large}/>
             </Grid>
             <Grid item xs={9}>
               <div className="user-info">
-                <h3>{user.username}</h3>
-                <Button variant="outlined" onClick={() => history.push('/settings/profile/') }>Edit Profile<SettingsIcon/></Button>
+                <h3>{profile.username}</h3>
+                { profile.username == user.username &&
+                  <Button variant="outlined" onClick={() => history.push('/settings/profile/') }>Edit Profile<SettingsIcon/></Button>
+                }
                 <ul>
                     <li><span>{collections.length}</span> posts</li>
-                    <li><span>{user.followers}</span>{user.followers == 1? ' follower': ' followers'}</li>
-                    <li><span>{user.following}</span> following</li>
+                    <li><span>{profile.followers}</span>{profile.followers == 1? ' follower': ' followers'}</li>
+                    <li><span>{profile.following}</span> following</li>
                 </ul>
-                <div>
-                  <h4>{user.first_name + ' ' + user.last_name}</h4>
+                <div>profile
+                  <h4>{profile.first_name + ' ' + profile.last_name}</h4>
                   <br/>
-                  <p>{user.bio}</p>
+                  <p>{profile.bio}</p>
                 </div>
 
               </div>
@@ -97,23 +80,33 @@ function Profile(props) {
           </Grid>
         </div>
       </Container>
-      }
+  }
+
+  const renderItems = () => {
+    return collections.map( (item, index) => 
+      <Grid item xs={4}>
+        <CollectionItem key={index} post={item}></CollectionItem>
+      </Grid>
+    ); 
+  }
+
+  return (
+    <div className="app__profile">
+       { profile && renderProfile() }
       </div>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const {profile, user} = state;
   const collections = [];
-  if(state.user.username == ownProps.match.params.username) {
-    const {collections} = state;
-  }
-  return { collections }
+  const { username } = ownProps.match.params;
+  return { profile, collections, user }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  // dispatch(getUserCollections());
-  return {
-    getUserProfile
-  }
+  const {username} = ownProps.match.params;
+  dispatch(getUserProfile(username));
+  return {}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

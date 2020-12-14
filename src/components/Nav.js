@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleLogout } from '../redux/auth/actions';
 
@@ -66,6 +66,11 @@ function Nav({user, handleLogout}) {
     const gotoHome = () => {
       history.push('/');
     }
+
+    const gotoProfile = () => {
+      history.push(profileLink);
+      handleMenuClose();
+    }
   
     return (
         <div className="app__header">
@@ -99,7 +104,7 @@ function Nav({user, handleLogout}) {
                         className={classes.menu}
                     >
                         <MenuItem>
-                          <Link className={classes.reset} to={profileLink} onClick={() => handleMenuClose()}>Profile</Link>
+                          <Link className={classes.reset} onClick={gotoProfile}>Profile</Link>
                         </MenuItem>
                         <MenuItem>
                           <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>
