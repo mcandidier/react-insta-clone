@@ -13,7 +13,8 @@ import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { getUserCollections } from '../redux/posts/actions';
 import { getUserProfile, followUser, unFollowUser } from '../redux/auth/actions';
-import  find from 'lodash/find';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import { CollectionItem } from '../components';
 
@@ -58,15 +59,20 @@ function Profile(props) {
     });
   }, [profile]);
   
-  
+
   const handleFollow = () => {
     followUser(username);
     setIsFollowing(true);
+    profile.followers.splice(0, 0, user.id);
   }
 
   const handleUnFollow = () => {
     unFollowUser(profile.id)
     setIsFollowing(false);
+
+    remove(profile.followers, (userId) => {
+      return userId != profile.id;
+    });
   }
 
   const renderProfile = () => {
