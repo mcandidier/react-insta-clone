@@ -87,3 +87,18 @@ export const handleChangePassword = data => {
     return API.post('accounts/change-password/', data);
   }
 }
+
+export const followUser = username => {
+  // follow user base on username
+  return (dispatch) => {
+    return API.post(`accounts/${username}/`, {'action': 'follow'}).then( resp => {
+      console.log(resp, 'follow');
+    });
+  }
+}
+
+export const unFollowUser = data => {
+  return (dispatch) => {
+    dispatch({type: 'UNFOLLOW_USER', data })
+  }
+}

@@ -1,4 +1,6 @@
 import omit from 'lodash/omit'; // load only functions you needed not entire library
+import remove from 'lodash/remove';
+
 import { Profile } from '../../components';
 
 const token = localStorage.getItem('access-token', null);
@@ -24,6 +26,11 @@ export function user(state=INITIAL_STATE, action) {
         return omit(state, ['profile_photo'])
       case 'SET_PHOTO':
         return Object.assign({}, state, action.data)
+      case 'UNFOLLOW_USER':
+        const res = remove(state.following, (userId) => {
+          return userId == action.data;
+        });
+        return state;
       default:
         return state
     }

@@ -12,8 +12,8 @@ import Button from '@material-ui/core/Button';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import { getUserCollections } from '../redux/posts/actions';
-import { getUserProfile } from '../redux/auth/actions';
-
+import { getUserProfile, followUser, unFollowUser } from '../redux/auth/actions';
+import  find from 'lodash/find';
 
 import { CollectionItem } from '../components';
 
@@ -40,10 +40,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Profile(props) {
-  const {collections, profile, user } = props;
+  const {collections, profile, user, followUser, unFollowUser } = props;
   const classes = useStyles();
   const history = useHistory();
   const {username} = props.match.params;
+  const [isFollowing, setIsFollowing] = useState(false); 
+  const {following} = user;
+
+  useEffect(() => {
+    let res = find(following, (n)=> {
+      if(n == profile.id) {
+        setIsFollowing(true);
+        return true;
+      } else {
+        setIsFollowing(false);
+      }
+    });
+  }, [profile]);
+  
+  
+  const handleFollow = () => {
+    followUser(username);
+    setIsFollowing(true);
+  }
+
+  const handleUnFollow = () => {
+    unFollowUser(profile.id)
+    setIsFollowing(false);
+  }
 
   const renderProfile = () => {
     return <Container maxWidth="md" key={profile.username}>
@@ -57,20 +81,21 @@ function Profile(props) {
             <Grid item xs={9}>
               <div className="user-info">
                 <h3>{profile.username}</h3>
-                { profile.username == user.username &&
+                { profile.username == user.username ?
                   <Button variant="outlined" onClick={() => history.push('/settings/profile/') }>Edit Profile<SettingsIcon/></Button>
+                : 
+                <Button variant="contained" color="primary" onClick={isFollowing ? handleUnFollow : handleFollow}>{ isFollowing? 'Unfollow': 'Follow'}</Button>
                 }
                 <ul>
                     <li><span>{collections.length}</span> posts</li>
-                    <li><span>{profile.followers}</span>{profile.followers == 1? ' follower': ' followers'}</li>
-                    <li><span>{profile.following}</span> following</li>
+                    <li><span>{profile.followers?.length}</span>{profile.followers?.length == 1? ' follower': ' followers'}</li>
+                    <li><span>{profile.following?.length}</span> following</li>
                 </ul>
                 <div>profile
                   <h4>{profile.first_name + ' ' + profile.last_name}</h4>
                   <br/>
                   <p>{profile.bio}</p>
                 </div>
-
               </div>
             </Grid>
           </Grid>
@@ -107,6 +132,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {username} = ownProps.match.params;
   dispatch(getUserProfile(username));
   dispatch(getUserCollections(username));
-  return {}
+  return {
+    followUser: username => dispatch(followUser(username)),
+    unFollowUser: id => dispatch(unFollowUser(id))
+  }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
