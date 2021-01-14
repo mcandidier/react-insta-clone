@@ -97,8 +97,10 @@ export const followUser = username => {
   }
 }
 
-export const unFollowUser = data => {
+export const unFollowUser = (username, data) => {
   return (dispatch) => {
-    dispatch({type: 'UNFOLLOW_USER', data })
+    return API.post(`accounts/${username}/`, {'action': 'unfollow'}).then( resp => {
+      dispatch({type: 'UNFOLLOW_USER', data })
+    });
   }
 }

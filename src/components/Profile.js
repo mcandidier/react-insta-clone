@@ -67,7 +67,7 @@ function Profile(props) {
   }
 
   const handleUnFollow = () => {
-    unFollowUser(profile.id)
+    unFollowUser(username, profile.id)
     setIsFollowing(false);
 
     remove(profile.followers, (userId) => {
