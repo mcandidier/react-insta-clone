@@ -20,6 +20,7 @@ import{
   Profile,
   Settings,
   EditProfile,
+  PostDetail,
 } from './components';
 
 import './App.css';
@@ -44,7 +45,8 @@ function App({user}) {
           </Route>
           <Route path="/register/" component={Register} />
           <Route path="/settings/" component={Settings} />
-          <Route path="/:username" component={Profile}/>
+          <Route path="/p/:postId/" component={PostDetail}/>
+          <Route path="/:username/" component={Profile}/>
         </Switch>
       </Router>
     </div>

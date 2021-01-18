@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 
@@ -6,17 +9,20 @@ import { likePost } from '../actions';
 
 import moment from 'moment';
 import CONFIG from '../config';
-import { connect } from 'react-redux';
 
 
-function Post({obj}){
+function Post(props){
+    const {obj} = props;
     const [post, setPost ] = useState(obj);
+    const [toDetail, setToDetail] = useState(false);
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
 
     useEffect(() => {
       setPost(obj);
     }, [obj]);
 
+
+    //todo: needs to optimize, move to utils
     const handleLike = async () => {
       let action = post.is_like? 'unlike': 'like';
       const data = {'id': post.id, 'action': action}
@@ -27,9 +33,17 @@ function Post({obj}){
       }
     }
 
+    const gotoPost = () => {
+      setToDetail(true);
+    }
+
     const username = post.user.username ? post.user.username : post.user.email;
+    if(toDetail) {
+      return <Redirect to={`p/${post.id}/`} />
+    }
+
     return (
-        <div className="app__post">
+        <div className="app__post" onClick={gotoPost}>
             <header>
                 <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
             <h4>{username}</h4>
@@ -38,7 +52,6 @@ function Post({obj}){
                 <section class="img-section">
                     <img src={CONFIG.apiHost+post.image}/>
                 </section>
-
                 <section className="actions">
                     <div className="like">
                         <Icon fontSize="default" 
@@ -61,4 +74,8 @@ function Post({obj}){
     )
 }
 
-export default connect(null, {})(Post);
+const mapStateToProps = (state, ownProps) => {
+  return {}
+}
+
+export default connect(mapStateToProps, {})(Post);

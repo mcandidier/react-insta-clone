@@ -21,6 +21,7 @@ import { getPosts } from '../redux/posts/actions';
 
 function Dashboard(props) {
   const {posts} = props;
+  
   const renderPosts = () => {
     return posts.map((post, index) => 
       <Post key={index} obj={post}></Post>

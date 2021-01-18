@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CONFIG from '../config';
 import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +6,7 @@ import { Height } from '@material-ui/icons';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import Icon from '@material-ui/core/Icon';
+import { SimpleDialog, Post } from '../components';
 
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 const item = btoa(Math.random()).substr(10, 5);
@@ -28,8 +29,22 @@ const useStyles = makeStyles((theme) => ({
 
 function CollectionItem({post}) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
+  const handleModalPost = () => {
+    setOpen(true);
+  }
+  
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+  
+  const renderModalTemplate = () => {
+    return <Post obj={post} />
+  }
+
   return (
-    <div className={`${classes.root} gallery-item`}>
+    <div className={`${classes.root} gallery-item`} onClick={handleModalPost}>
       <img className={classes.item} src={CONFIG.apiHost+ post.image}/>
       <div class="gallery-item-info">
         <ul>
@@ -42,6 +57,7 @@ function CollectionItem({post}) {
         <span>1</span></li>
         </ul>
       </div>
+      <SimpleDialog title={post.description} open={open} onClose={handleClose} template={renderModalTemplate} />
   </div>
   )
 }

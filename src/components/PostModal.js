@@ -16,7 +16,6 @@ import PostForm from '../components/PostForm';
 
 import {reset} from 'redux-form';
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="bottom" ref={ref} {...props} />;
 });

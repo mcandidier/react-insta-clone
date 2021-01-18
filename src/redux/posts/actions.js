@@ -52,3 +52,9 @@ export const addPost = (data, callback) => {
     });
   }
 }
+
+export const getPostDetail = (postId, callback) => {
+  return API.get(`posts/${postId}/`).then( resp => {
+    callback(resp.data);
+  });
+}

@@ -101,7 +101,6 @@ function Settings(props) {
   }, [orientation, renderTabs]);
 
 
-
   return (
     <div>
     <Container maxWidth="md">

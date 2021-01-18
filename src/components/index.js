@@ -11,14 +11,17 @@ import CollectionItem from './CollectionItem';
 import Settings from './Settings';
 import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
+import PostDetail from './PostDetail';
 
 // commmon components
 import SimpleDialog from '../common/SimpleModal';
+import SinglePost from '../common/SinglePost';
 
 
 export {
   // common components
   SimpleDialog,
+  SinglePost,
   // core components
   Public,
   Nav,
@@ -33,4 +36,5 @@ export {
   Settings,
   EditProfile,
   ChangePassword,
+  PostDetail,
 }
