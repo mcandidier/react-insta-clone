@@ -24,8 +24,8 @@ const useStyles = makeStyles({
 
 export default function SimpleDialog(props) {
   const classes = useStyles();
-  const { onClose, selectedValue, open, template, title } = props;
-
+  const { onClose, selectedValue, open, template, title, show_title } = props;
+   
   const handleClose = () => {
     onClose(selectedValue);
   };
@@ -35,8 +35,10 @@ export default function SimpleDialog(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
+    <Dialog 
+      maxWidth="md"
+      onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      { show_title && <DialogTitle id="simple-dialog-title">{title}</DialogTitle> }
       {template()}
     </Dialog>
   );

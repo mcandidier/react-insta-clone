@@ -6,7 +6,7 @@ import { Height } from '@material-ui/icons';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import Icon from '@material-ui/core/Icon';
-import { SimpleDialog, Post } from '../components';
+import { SimpleDialog, SinglePost } from '../components';
 
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 const item = btoa(Math.random()).substr(10, 5);
@@ -39,8 +39,9 @@ function CollectionItem({post}) {
     setOpen(false);
   };
   
+
   const renderModalTemplate = () => {
-    return <Post obj={post} />
+    return <SinglePost post={post}/>
   }
 
   return (
@@ -57,7 +58,7 @@ function CollectionItem({post}) {
         <span>1</span></li>
         </ul>
       </div>
-      <SimpleDialog title={post.description} open={open} onClose={handleClose} template={renderModalTemplate} />
+      <SimpleDialog show_title={false} open={open} onClose={handleClose} template={renderModalTemplate} />
   </div>
   )
 }
