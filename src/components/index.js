@@ -13,9 +13,11 @@ import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
 import PostDetail from './PostDetail';
 
+
 // commmon components
 import SimpleDialog from '../common/SimpleModal';
 import SinglePost from '../common/SinglePost';
+import CommentForm from './CommentForm';
 
 
 export {
@@ -37,4 +39,5 @@ export {
   EditProfile,
   ChangePassword,
   PostDetail,
+  CommentForm,
 }

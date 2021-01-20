@@ -58,3 +58,16 @@ export const getPostDetail = (postId, callback) => {
     callback(resp.data);
   });
 }
+
+
+export const addComment = (postId, data, callback) => {
+  // add comment to a post
+  return API.post(`posts/${postId}/comments/`, data).then( resp => {
+    callback(resp.data);
+  });
+} 
+
+export const commentList = (postId) => {
+  // retrieve comments from a post
+  return API.get(`posts/${postId}/comments/`);
+} 

@@ -12,6 +12,9 @@ import Icon from '@material-ui/core/Icon';
 import { Divider } from '@material-ui/core';
 import { likePost } from '../actions';
 import moment from 'moment';
+import CommentForm from '../components/CommentForm';
+
+import { commentList, addComment} from '../redux/posts/actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +30,7 @@ function SinglePost(props) {
   const [post, setPost ] = useState(obj);
   const username = post.user.username ? post.user.username : post.user.email;
   const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
+  const [comments, setComments] = useState([]);
 
   const handleLike = async () => {
     let action = post.is_like? 'unlike': 'like';
@@ -38,6 +42,23 @@ function SinglePost(props) {
       console.log(error);
     }
   }
+
+  const handleSubmit = (values)=> {
+    console.log('test')
+    addComment(post.id, values, insertNewComment);
+  }
+
+  const insertNewComment = comment => {
+    setComments(comments.concat(comment));
+  }
+
+  useEffect(() => {
+    if(comments.length == 0) {
+      commentList(post.id).then( resp => {
+        setComments(resp.data);
+      });
+    }
+  });
 
   return (
     <Container maxWidth="md" className={`app__single_post ${classes.root}`}>
@@ -55,9 +76,10 @@ function SinglePost(props) {
           <Divider></Divider>
           <section className="comments">
             <ul>
-              <li>Comment 3</li>
-              <li>Comment 2</li>
-              <li>Comment 1</li>
+              { comments.map((comment, index) => 
+                <li key={index}>{comment.text}</li>
+              )
+              }
             </ul>
           </section>
           <Divider></Divider>
@@ -77,6 +99,9 @@ function SinglePost(props) {
               {timestamp}
             </small>
             </p>
+          </section>
+          <section className="form">
+            <CommentForm postId={post.id} onSubmit={handleSubmit} />
           </section>
         </Grid>
       </Grid>
