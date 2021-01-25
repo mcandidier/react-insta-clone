@@ -5,22 +5,33 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
 
 import CONFIG from '../config';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
-import { Divider } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import { likePost } from '../actions';
 import moment from 'moment';
 import CommentForm from '../components/CommentForm';
 
 import { commentList, addComment} from '../redux/posts/actions';
-
+import { Comment } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: 0,
+  },
+  list: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
+    padding: theme.spacing(0),
+    margin: theme.spacing(0)
   }
 }));
 
@@ -44,7 +55,6 @@ function SinglePost(props) {
   }
 
   const handleSubmit = (values)=> {
-    console.log('test')
     addComment(post.id, values, insertNewComment);
   }
 
@@ -74,13 +84,14 @@ function SinglePost(props) {
             <h4>{username}</h4>
           </section>
           <Divider></Divider>
+
           <section className="comments">
-            <ul>
+            <List className={classes.list} subheader={<li />}>
               { comments.map((comment, index) => 
-                <li key={index}>{comment.text}</li>
+                <Comment key={index} comment={comment}/>
               )
               }
-            </ul>
+            </List>            
           </section>
           <Divider></Divider>
           <section className="actions">
@@ -93,7 +104,7 @@ function SinglePost(props) {
                 <Icon fontSize="default">bookmark_border</Icon>
               </li>
             </ul>
-            <span className="counter">{post.like_count} likes</span>
+            <span className="counter">{post.like_count ? `${post.like_count} likes` : 'Be the first one to like.' }</span>
             <p className="timestamp">
             <small className="timestamp">
               {timestamp}

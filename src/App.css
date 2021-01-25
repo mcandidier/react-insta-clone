@@ -150,6 +150,7 @@ body {
 .app__single_post {
   margin: 0;
   position: relative;
+  border: 1px solid rgba(var(--b6a,219,219,219),1);
 }
 
 .app__single_post section {
@@ -170,11 +171,3 @@ body {
   list-style: none;
   width: 34px;
 }
-
-.app__single_post {
-  
-}
-
-.app__comment_form form {
-  display: flex;
-} 

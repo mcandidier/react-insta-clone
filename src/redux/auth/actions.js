@@ -46,6 +46,10 @@ export const getCurrentUser = () => {
   }
 }
 
+export const getUserInfo = async (username) => {
+  return await API.get(`accounts/${username}/`);
+}
+
 export const getUserProfile = (username) => {
   return (dispatch) => {
     return API.get(`accounts/${username}/`).then(resp => {

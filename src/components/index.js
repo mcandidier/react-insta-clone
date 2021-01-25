@@ -12,7 +12,7 @@ import Settings from './Settings';
 import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
 import PostDetail from './PostDetail';
-
+import Comment from './Comment';
 
 // commmon components
 import SimpleDialog from '../common/SimpleModal';
@@ -40,4 +40,5 @@ export {
   ChangePassword,
   PostDetail,
   CommentForm,
+  Comment,
 }
