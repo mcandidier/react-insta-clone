@@ -45,6 +45,10 @@ body {
   border-radius: 4px;;
 }
 
+.app__post .btn-dropdown {
+  margin-left: auto;
+}
+
 .app__post header,
 .app__single_post .header {
   display: flex;

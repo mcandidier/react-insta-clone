@@ -5,10 +5,15 @@ import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 
+import {IconButton, Button, Menu, MenuItem} from '@material-ui/core';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+
 import { likePost } from '../actions';
 
 import moment from 'moment';
 import CONFIG from '../config';
+import { positions } from '@material-ui/system';
+
 
 
 function Post(props){
@@ -16,6 +21,16 @@ function Post(props){
     const [post, setPost ] = useState(obj);
     const [toDetail, setToDetail] = useState(false);
     const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
 
     useEffect(() => {
       setPost(obj);
@@ -43,34 +58,56 @@ function Post(props){
     }
 
     return (
-        <div className="app__post" onClick={gotoPost}>
-            <header>
-                <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
-            <h4>{username}</h4>
-            </header>
-            <div className="content">
-                <section class="img-section">
-                    <img src={CONFIG.apiHost+post.image}/>
-                </section>
-                <section className="actions">
-                    <div className="like">
-                        <Icon fontSize="default" 
-                              onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
-                    </div>
-                    <div className="bookmark">
-                        <Icon fontSize="default">bookmark_border</Icon>
-                    </div>
-                </section>
-                <section className="info">
-                    <strong>{post.user.username} </strong><span>
-                    {post.description}
-                    </span>
-                    <p>
-                        <small className="timestamp">{timestamp}</small>
-                    </p>
-                </section>
-            </div>
+        <div className="app__post"
+          style={{ position: 'relative' }}>
+          <header>
+              <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
+          <h4>{username}</h4>
+          <div className="btn-dropdown">
+            <IconButton
+              aria-label="more"
+              aria-controls="long-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+              >
+              <MoreHorizIcon />
+            </IconButton>
+          </div>
+
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}>
+
+            <MenuItem onClick={gotoPost}>Go to post</MenuItem>
+          </Menu>
+
+        </header>
+        <div className="content">
+            <section class="img-section">
+                <img src={CONFIG.apiHost+post.image}/>
+            </section>
+            <section className="actions">
+                <div className="like">
+                    <Icon fontSize="default" 
+                          onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
+                </div>
+                <div className="bookmark">
+                    <Icon fontSize="default">bookmark_border</Icon>
+                </div>
+            </section>
+            <section className="info">
+                <strong>{post.user.username} </strong><span>
+                {post.description}
+                </span>
+                <p>
+                    <small className="timestamp">{timestamp}</small>
+                </p>
+            </section>
         </div>
+      </div>
     )
 }
 
