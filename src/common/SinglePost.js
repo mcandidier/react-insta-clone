@@ -11,12 +11,15 @@ import CONFIG from '../config';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
+import { useHistory } from 'react-router-dom';
+
 import { likePost } from '../actions';
 import moment from 'moment';
 import CommentForm from '../components/CommentForm';
 
 import { commentList, addComment} from '../redux/posts/actions';
 import { Comment } from '../components';
+import GotoPost from '../common/GotoPost';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +45,8 @@ function SinglePost(props) {
   const username = post.user.username ? post.user.username : post.user.email;
   const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
   const [comments, setComments] = useState([]);
+  const [toDetail, setToDetail] = useState(false);
+  const history = useHistory();
 
   const handleLike = async () => {
     let action = post.is_like? 'unlike': 'like';
@@ -52,6 +57,12 @@ function SinglePost(props) {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const gotoPost = () => {
+    history.push({
+      pathname: `/p/${obj.id}/`,
+    })
   }
 
   const handleSubmit = (values)=> {
@@ -82,6 +93,7 @@ function SinglePost(props) {
           <section className="header">
             <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
             <h4>{username}</h4>
+            <GotoPost gotoPost={gotoPost}></GotoPost>
           </section>
           <Divider></Divider>
 
@@ -91,7 +103,7 @@ function SinglePost(props) {
                 <Comment key={index} comment={comment}/>
               )
               }
-            </List>            
+            </List>
           </section>
           <Divider></Divider>
           <section className="actions">

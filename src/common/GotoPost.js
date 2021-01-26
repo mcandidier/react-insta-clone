@@ -16,7 +16,7 @@ function GotoPost({gotoPost}) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <div className="btn-dropdown">
         <IconButton
           aria-label="more"
@@ -36,7 +36,7 @@ function GotoPost({gotoPost}) {
         onClose={handleClose}>
         <MenuItem onClick={gotoPost}>Go to post</MenuItem>
       </Menu>
-  </div>
+    </React.Fragment>
   ) 
 }
 

@@ -45,7 +45,8 @@ body {
   border-radius: 4px;;
 }
 
-.app__post .btn-dropdown {
+.app__post .btn-dropdown,
+.app__single_post .btn-dropdown {
   margin-left: auto;
 }
 
@@ -150,7 +151,6 @@ body {
   clip: rect(1px, 1px, 1px, 1px);
 }
 
-
 .app__single_post {
   margin: 0;
   position: relative;
@@ -174,4 +174,8 @@ body {
   display: inline-block;
   list-style: none;
   width: 34px;
+}
+
+.MuiDialogContent-root:first-child {
+  padding-top: 0px!important;
 }
