@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, connect } from 'react-redux';
-
-import { userLogin, userLogout,LOGIN, getCurrentUser} from './redux/auth/actions';
-
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getCurrentUser} from './redux/auth/actions';
 
 import { 
   BrowserRouter as Router,
@@ -19,7 +17,6 @@ import{
   Register,
   Profile,
   Settings,
-  EditProfile,
   PostDetail,
 } from './components';
 

@@ -46,6 +46,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   dispatch(getPosts());
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

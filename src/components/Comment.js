@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 300,
     paddingLeft: 0,
     paddingRight: 0,
-
   },
   inline: {
     display: 'inline',

@@ -1,14 +1,12 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { Link, Redirect, useHistory} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Login } from '../components';
 
 
 function Public(props) {
   const {user} = props;
-  const history = useHistory();
-
 
   return (
     <div>

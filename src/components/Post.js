@@ -67,9 +67,9 @@ function Post(props){
                     <Icon fontSize="default" 
                           onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
                 </div>
-                <div className="bookmark">
+                {/* <div className="bookmark">
                     <Icon fontSize="default">bookmark_border</Icon>
-                </div>
+                </div> */}
             </section>
             <section className="info">
                 <strong>{post.user.username} </strong><span>

@@ -1,10 +1,8 @@
 import React, { useState,useEffect } from 'react';
-import {connect} from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 
 import CONFIG from '../config';
@@ -45,7 +43,6 @@ function SinglePost(props) {
   const username = post.user.username ? post.user.username : post.user.email;
   const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
   const [comments, setComments] = useState([]);
-  const [toDetail, setToDetail] = useState(false);
   const history = useHistory();
 
   const handleLike = async () => {
@@ -74,7 +71,7 @@ function SinglePost(props) {
   }
 
   useEffect(() => {
-    if(comments.length == 0) {
+    if(comments.length === 0) {
       commentList(post.id).then( resp => {
         setComments(resp.data);
       });
