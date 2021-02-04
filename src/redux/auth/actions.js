@@ -108,3 +108,9 @@ export const unFollowUser = (username, data) => {
     });
   }
 }
+
+export const resetPassword = data => {
+  return (dispatch) => {
+    return API.post('accounts/reset-password/', data);
+  }
+}

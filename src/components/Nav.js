@@ -5,7 +5,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import { useHistory, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleLogout } from '../redux/auth/actions';
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
  
 function Nav({user, handleLogout}) {
+    console.log(user, 'test');
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory();
@@ -71,50 +73,58 @@ function Nav({user, handleLogout}) {
       history.push(profileLink);
       handleMenuClose();
     }
+
+    const navTemplate = () => {
+      if(user.loggedIn) {
+        return <React.Fragment>
+                <div className="nav-center">
+                  <form>
+                    <input type="search" placeholder="search"></input>
+                  </form>
+
+                </div>
+                <div className="nav-right">
+                  <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
+                  <Icon className="material-icons-outlined" onClick={gotoHome}>home</Icon>
+                  <Icon className="material-icons">favorite_border_outlined</Icon>
+                  <Avatar
+                    alt={user.email}
+                    className={classes.small}
+                    onClick={handleClick}
+                    src={`${CONFIG.apiHost}${user.profile_photo}`}
+                  />
+
+                  <div>
+                      <Menu
+                          id="fade-menu"
+                          anchorEl={anchorEl}
+                          keepMounted
+                          open={openMenu}
+                          onClose={handleMenuClose}
+                          className={classes.menu}
+                      >
+                          <MenuItem>
+                            <Link className={classes.reset} onClick={gotoProfile}>Profile</Link>
+                          </MenuItem>
+                          <MenuItem>
+                            <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>
+                          </MenuItem>
+                          <Divider light />
+                          <MenuItem onClick={() => onLogout()}>Logout</MenuItem>
+                      </Menu>
+                  </div>
+                </div>
+                <PostModal open={open} handleClose={handleClose}></PostModal>
+            </React.Fragment>
+      }
+    }
   
     return (
         <div className="app__header">
             <div className="left">
                 <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="instagram logo" />
             </div>
-            <div className="nav-center">
-                <form>
-                  <input type="search" placeholder="search"></input>
-                </form>
-
-            </div>
-            <div className="nav-right">
-                <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
-                <Icon className="material-icons-outlined" onClick={gotoHome}>home</Icon>
-                <Icon className="material-icons">favorite_border_outlined</Icon>
-                <Avatar
-                  alt={user.email}
-                  className={classes.small}
-                  onClick={handleClick}
-                  src={`${CONFIG.apiHost}${user.profile_photo}`}
-                />
-
-                <div>
-                    <Menu
-                        id="fade-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={openMenu}
-                        onClose={handleMenuClose}
-                        className={classes.menu}
-                    >
-                        <MenuItem>
-                          <Link className={classes.reset} onClick={gotoProfile}>Profile</Link>
-                        </MenuItem>
-                        <MenuItem>
-                          <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>
-                        </MenuItem>
-                        <Divider light />
-                        <MenuItem onClick={() => onLogout()}>Logout</MenuItem>
-                    </Menu>
-                </div>
-            </div>
-            <PostModal open={open} handleClose={handleClose}></PostModal>
+            {navTemplate()}
         </div>
     )
 }

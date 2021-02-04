@@ -13,12 +13,13 @@ import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
 import PostDetail from './PostDetail';
 import Comment from './Comment';
+import ForgotPassword from './ForgotPassword';
 
 // commmon components
 import SimpleDialog from '../common/SimpleModal';
 import SinglePost from '../common/SinglePost';
 import CommentForm from './CommentForm';
-
+import ResetPassword from './ResetPassword';
 
 export {
   // common components
@@ -41,4 +42,6 @@ export {
   PostDetail,
   CommentForm,
   Comment,
+  ForgotPassword,
+  ResetPassword,
 }

@@ -18,6 +18,8 @@ import{
   Profile,
   Settings,
   PostDetail,
+  ForgotPassword,
+  ResetPassword,
 } from './components';
 
 import './App.css';
@@ -40,6 +42,10 @@ function App({user}) {
           <Route exact path="/login/">
             {loggedIn ? <Redirect to="/" /> : <Login />}
           </Route>
+          <Route exact path="/forgot-password/">
+            {loggedIn ? <Redirect to="/" /> : <ForgotPassword />}
+          </Route>
+          <Route path="/reset-password/:token/" component={ResetPassword} />
           <Route path="/register/" component={Register} />
           <Route path="/settings/" component={Settings} />
           <Route path="/p/:postId/" component={PostDetail}/>
