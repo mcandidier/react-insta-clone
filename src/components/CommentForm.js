@@ -29,6 +29,9 @@ const CommentForm = (props) => {
   )
 }
 
+
+
+
 export default reduxForm({
   form: 'CommentForm',
   enableReinitialize : true // you need to add this property

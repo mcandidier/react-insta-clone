@@ -74,6 +74,10 @@ function Nav({user, handleLogout}) {
       handleMenuClose();
     }
 
+    const gotoLikes = () => {
+      history.push('likes');
+    }
+
     const navTemplate = () => {
       if(user.loggedIn) {
         return <React.Fragment>
@@ -86,7 +90,7 @@ function Nav({user, handleLogout}) {
                 <div className="nav-right">
                   <Icon className="material-icons-outlined" onClick={handleClickOpen}>add_circle_outline</Icon>
                   <Icon className="material-icons-outlined" onClick={gotoHome}>home</Icon>
-                  <Icon className="material-icons">favorite_border_outlined</Icon>
+                  <Icon className="material-icons" onClick={gotoLikes}>favorite_border_outlined</Icon>
                   <Avatar
                     alt={user.email}
                     className={classes.small}

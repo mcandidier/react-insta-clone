@@ -20,6 +20,8 @@ import SimpleDialog from '../common/SimpleModal';
 import SinglePost from '../common/SinglePost';
 import CommentForm from './CommentForm';
 import ResetPassword from './ResetPassword';
+import Likes from './Likes';
+
 
 export {
   // common components
@@ -44,4 +46,5 @@ export {
   Comment,
   ForgotPassword,
   ResetPassword,
+  Likes,
 }

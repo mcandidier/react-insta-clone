@@ -63,12 +63,12 @@ function ForgotPassword(props) {
     <React.Fragment>
       <Nav></Nav>
       <Container maxWidth="xs">
-      { isSubmitted ? 
+      { isSubmitted &&
         <Alert severity="success">
         <AlertTitle>Success</AlertTitle>
-        We have e-mailed your password reset link. Kindly check your email.
+        Great, we shot you an email to make sure it's really you.
         </Alert>
-      :
+      }
       <form onSubmit={handleSubmit(onSubmit)}>
       <Field
           validate={[required]}
@@ -94,7 +94,6 @@ function ForgotPassword(props) {
           </Grid>
         </Grid>
         </form>
-      }
       </Container>
     </React.Fragment>
   )

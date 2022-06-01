@@ -4,11 +4,13 @@ import { ChangePassword, Nav } from '../components';
 
 
 function ResetPassword(props) {
+  const {token} = props.match.params;
+  console.log(token);
   return (
     <React.Fragment>
     <Nav></Nav>
     <Container maxWidth="xs">
-      <ChangePassword></ChangePassword>
+      <ChangePassword token={token}></ChangePassword>
     </Container>
     </React.Fragment>
   )

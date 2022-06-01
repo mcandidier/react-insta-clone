@@ -20,6 +20,7 @@ import{
   PostDetail,
   ForgotPassword,
   ResetPassword,
+  Likes,
 } from './components';
 
 import './App.css';
@@ -28,6 +29,9 @@ import './App.css';
 function App({user}) {
   useEffect( ()=> {
   }, [user])
+  
+
+
 
   const {loggedIn}  = user;
   
@@ -49,6 +53,7 @@ function App({user}) {
           <Route path="/register/" component={Register} />
           <Route path="/settings/" component={Settings} />
           <Route path="/p/:postId/" component={PostDetail}/>
+          <Route path="/likes/" component={Likes}/>
           <Route path="/:username/" component={Profile}/>
         </Switch>
       </Router>

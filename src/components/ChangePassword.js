@@ -24,10 +24,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ChangePassword(props) {
   const classes = useStyles(); 
-  const {handleSubmit, pristine, reset, user, submitting, handleChangePassword } = props;
+  const {handleSubmit, pristine, reset, user, submitting, handleChangePassword, token} = props;
   const [success, setSuccess] = useState(false)
 
   const onSubmit = values => {
+    Object.assign(values, {'token': token});
+    console.log(values);
     return handleChangePassword(values).then( resp => {
       reset();
       setSuccess(true);
