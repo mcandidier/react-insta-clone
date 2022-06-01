@@ -75,7 +75,12 @@ function Nav({user, handleLogout}) {
     }
 
     const gotoLikes = () => {
-      history.push('likes');
+      history.push('/likes/');
+    }
+
+    const gotoSettings = () => {
+      history.push('/settings/profile/');
+      handleMenuClose();
     }
 
     const navTemplate = () => {
@@ -111,7 +116,7 @@ function Nav({user, handleLogout}) {
                             <Link className={classes.reset} onClick={gotoProfile}>Profile</Link>
                           </MenuItem>
                           <MenuItem>
-                            <Link className={classes.reset} to="/settings/profile/" onClick={() => handleMenuClose()}>Settings</Link>
+                            <Link className={classes.reset} to="settings/profile/" onClick={gotoSettings}>Settings</Link>
                           </MenuItem>
                           <Divider light />
                           <MenuItem onClick={() => onLogout()}>Logout</MenuItem>

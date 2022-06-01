@@ -22,6 +22,7 @@ const CommentForm = (props) => {
           type="text"
           validate={[required]}
           placeholder="Add a comment"
+          
         />
         <Button variant="contained" type="submit" disabled={pristine || submitting} color="primary">Post</Button>
       </form>

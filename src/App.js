@@ -26,14 +26,30 @@ import{
 import './App.css';
 
 
+
 function App({user}) {
-  useEffect( ()=> {
-  }, [user])
-  
-
-
-
   const {loggedIn}  = user;
+
+
+  const PrivateRoute = ({ component: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          loggedIn ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
+
   
   return (
     <div className="App">
@@ -51,10 +67,10 @@ function App({user}) {
           </Route>
           <Route path="/reset-password/:token/" component={ResetPassword} />
           <Route path="/register/" component={Register} />
-          <Route path="/settings/" component={Settings} />
-          <Route path="/p/:postId/" component={PostDetail}/>
-          <Route path="/likes/" component={Likes}/>
-          <Route path="/:username/" component={Profile}/>
+          <PrivateRoute path="/settings/" component={Settings} />
+          <PrivateRoute path="/p/:postId/" component={PostDetail}/>
+          <PrivateRoute path="/likes/" component={Likes}/>
+          <PrivateRoute path="/:username/" component={Profile}/>
         </Switch>
       </Router>
     </div>

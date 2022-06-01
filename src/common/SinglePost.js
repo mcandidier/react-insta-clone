@@ -90,7 +90,9 @@ function SinglePost(props) {
           <section className="header">
             <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
             <h4>{username}</h4>
-            <GotoPost gotoPost={gotoPost}></GotoPost>
+
+            
+            {/* <GotoPost gotoPost={gotoPost}></GotoPost> */}
           </section>
           <Divider></Divider>
 
