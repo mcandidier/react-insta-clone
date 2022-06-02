@@ -19,8 +19,9 @@ import remove from 'lodash/remove';
 import { CollectionItem } from '../components';
 
 import CONFIG from '../config';
-import { Redirect, useHistory } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 
+import {NotFound} from '../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,10 @@ function Profile(props) {
   const {username} = props.match.params;
   const [isFollowing, setIsFollowing] = useState(false); 
   const {following} = user;
+
+  console.log(profile, 'profile');
+
+
 
   useEffect(() => {
     let res = find(following, (n)=> {
@@ -76,6 +81,10 @@ function Profile(props) {
   }
 
   const renderProfile = () => {
+    if(!profile.id) {
+      return <NotFound></NotFound>
+    }
+
     return <Container maxWidth="md" key={profile.username}>
         <div className={classes.root}>
           <Grid container spacing={3}>
@@ -123,14 +132,13 @@ function Profile(props) {
 
   return (
     <div className="app__profile">
-       { profile && renderProfile() }
+      { profile && renderProfile() }
       </div>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
   const {profile, user, collections} = state;
-  const { username } = ownProps.match.params;
   return { profile, collections, user }
 }
 

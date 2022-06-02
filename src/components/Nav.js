@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
  
 function Nav({user, handleLogout}) {
-    console.log(user, 'test');
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory();

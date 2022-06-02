@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import {connect} from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
@@ -17,7 +18,8 @@ import CommentForm from '../components/CommentForm';
 
 import { commentList, addComment} from '../redux/posts/actions';
 import { Comment } from '../components';
-import GotoPost from '../common/GotoPost';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,11 +41,14 @@ const useStyles = makeStyles((theme) => ({
 function SinglePost(props) {
   const classes = useStyles();
   const obj = props.post;
+  const user = props.user;
   const [post, setPost ] = useState(obj);
   const username = post.user.username ? post.user.username : post.user.email;
   const timestamp = moment(post.timestamp, "YYYYMMDD").fromNow();
   const [comments, setComments] = useState([]);
   const history = useHistory();
+
+  console.log('user', user);
 
   const handleLike = async () => {
     let action = post.is_like? 'unlike': 'like';
@@ -70,19 +75,23 @@ function SinglePost(props) {
     setComments(comments.concat(comment));
   }
 
+  const deletePost = post => {
+    alert('archived')
+  }
+
   useEffect(() => {
     if(comments.length === 0) {
       commentList(post.id).then( resp => {
         setComments(resp.data);
       });
     }
-  });
+  }, [user]);
 
   return (
     <Container maxWidth="md" className={`app__single_post ${classes.root}`}>
       <Grid container spacing={0}>
         <Grid item xs={8}>
-          <div class="img-section">
+          <div className="img-section">
               <img src={CONFIG.apiHost+post.image}/>
             </div>
         </Grid>
@@ -90,9 +99,6 @@ function SinglePost(props) {
           <section className="header">
             <Avatar alt={username} src={CONFIG.apiHost+post.user.profile_photo}>{username.slice(0, 1)}</Avatar>
             <h4>{username}</h4>
-
-            
-            {/* <GotoPost gotoPost={gotoPost}></GotoPost> */}
           </section>
           <Divider></Divider>
 
@@ -111,9 +117,11 @@ function SinglePost(props) {
               <Icon fontSize="default" 
                 onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
               </li>
-              <li>
-                <Icon fontSize="default">bookmark_border</Icon>
-              </li>
+              { post.user?.id === user.id &&
+                <li>
+                  <Icon fontSize="default" onClick={() => {deletePost(post)}}>delete_outlined</Icon>
+                </li>
+              }
             </ul>
             <span className="counter">{post.like_count ? `${post.like_count} likes` : 'Be the first one to like.' }</span>
             <p className="timestamp">
@@ -131,4 +139,14 @@ function SinglePost(props) {
   )
 }
 
-export default SinglePost;
+
+const mapStateToProps = (state, ownProps) => {
+  const { user } = state;
+  return {user}
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePost);

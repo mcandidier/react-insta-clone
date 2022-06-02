@@ -21,7 +21,9 @@ import{
   ForgotPassword,
   ResetPassword,
   Likes,
+  NotFound,
 } from './components';
+
 
 import './App.css';
 
@@ -65,12 +67,13 @@ function App({user}) {
           <Route exact path="/forgot-password/">
             {loggedIn ? <Redirect to="/" /> : <ForgotPassword />}
           </Route>
-          <Route path="/reset-password/:token/" component={ResetPassword} />
-          <Route path="/register/" component={Register} />
+          <Route exact path="/reset-password/:token/" component={ResetPassword} />
+          <Route exact path="/register/" component={Register} />
           <PrivateRoute path="/settings/" component={Settings} />
-          <PrivateRoute path="/p/:postId/" component={PostDetail}/>
-          <PrivateRoute path="/likes/" component={Likes}/>
-          <PrivateRoute path="/:username/" component={Profile}/>
+          <PrivateRoute exact path="/p/:postId/" component={PostDetail}/>
+          <PrivateRoute exact path="/likes/" component={Likes}/>
+          <PrivateRoute exact strict path="/:username/" component={Profile}/>
+          <Route component={NotFound} />
         </Switch>
       </Router>
     </div>

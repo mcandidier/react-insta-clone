@@ -21,7 +21,7 @@ import SinglePost from '../common/SinglePost';
 import CommentForm from './CommentForm';
 import ResetPassword from './ResetPassword';
 import Likes from './Likes';
-
+import NotFound from './NotFound';
 
 export {
   // common components
@@ -47,4 +47,5 @@ export {
   ForgotPassword,
   ResetPassword,
   Likes,
+  NotFound,
 }

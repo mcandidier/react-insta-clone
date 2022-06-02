@@ -14,43 +14,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  useHistory,
   Link
 } from 'react-router-dom';
-import { colors } from '@material-ui/core';
-
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
-//   console.log(value, 'xx')
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`vertical-tabpanel-${index}`}
-//       aria-labelledby={`vertical-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && (
-//         <Box p={3}>
-//           <Typography>{children}</Typography>
-//         </Box>
-//       )}
-//     </div>
-//   );
-// }
-
-// TabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.any.isRequired,
-//   value: PropTypes.any.isRequired,
-// };
-
-// function a11yProps(index) {
-//   return {
-//     id: `vertical-tab-${index}`,
-//     'aria-controls': `vertical-tabpanel-${index}`,
-//   };
-// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,10 +35,15 @@ const useStyles = makeStyles((theme) => ({
 function Settings(props) {
   const location = props.location;
   const classes = useStyles();
+  const history = useHistory();
   const [value, setValue] = useState(0);
   const [orientation, setOrientation] = useState('vertical');
-  const match = props.match;
   
+
+
+  if(location.pathname === '/settings/') {
+    history.push('/settings/profile/');
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
