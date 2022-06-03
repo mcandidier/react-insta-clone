@@ -1,5 +1,5 @@
 const CONFIG = {
-  apiHost: 'http://localhost:8000'
+  apiHost: process.env.REACT_APP_API_HOST
 }
 
 export default CONFIG;
