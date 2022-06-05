@@ -117,11 +117,11 @@ function SinglePost(props) {
               <Icon fontSize="default" 
                 onClick={handleLike}>{post.is_like ? 'favorite': 'favorite_outlined'}</Icon>
               </li>
-              { post.user?.id === user.id &&
+              {/* { post.user?.id === user.id &&
                 <li>
                   <Icon fontSize="default" onClick={() => {deletePost(post)}}>delete_outlined</Icon>
                 </li>
-              }
+              } */}
             </ul>
             <span className="counter">{post.like_count ? `${post.like_count} likes` : 'Be the first one to like.' }</span>
             <p className="timestamp">
